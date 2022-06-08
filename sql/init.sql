@@ -1,0 +1,3 @@
+CREATE USER notesuser;
+CREATE DATABASE notes;
+GRANT ALL PRIVILEGES ON DATABASE notes TO notesuser;

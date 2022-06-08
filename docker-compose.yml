@@ -1,6 +1,21 @@
 version: "3.9"
 services:
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=notesuser
+      - POSTGRES_PASSWORD=notesuser
+    ports:
+      - '5342:5342'
+    volumes:
+      - ./db:/var/lib/postgresql/data
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
   web:
     build: .
     ports:
       - 8080:8080
+volumes:
+  db:
+    driver: local

@@ -17,3 +17,6 @@ gradle-app.setting
 
 # ignore .DS_Store
 **/.DS_Store
+
+# ignore db
+db/*

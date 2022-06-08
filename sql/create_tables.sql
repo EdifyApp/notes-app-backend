@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS note(
+    note_id SERIAL PRIMARY KEY,
+    name VARCHAR NOT NULL
+)
