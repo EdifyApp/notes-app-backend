@@ -13,10 +13,11 @@ repositories {
 }
 
 dependencies {
-	implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.6'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.7.0'
-	implementation group: 'com.zaxxer', name: 'HikariCP', version: '5.0.1'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.7.0'
+	implementation 'com.zaxxer:HikariCP:5.0.1'
+	implementation 'org.postgresql:postgresql:42.3.6'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.0'
 
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
