@@ -3,14 +3,7 @@ package com.notes.api.controllers;
 import com.notes.api.entities.Note;
 import com.notes.api.repositories.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class NoteController {
@@ -18,15 +11,22 @@ public class NoteController {
     @Autowired
     NoteRepository noteRepository;
 
-    // GET method to fetch all phones
-    @GetMapping("/getallnotes")
-    public List<Note> getAllNotes() {
-        return noteRepository.findAll();
+    @GetMapping("/getnote")
+    @ResponseBody
+    public GetResponse getNoteById(@RequestParam long id) {
+        Note note = noteRepository.findById(id);
+
+        if (note != null) {
+            return new GetResponse(note, "found note", true);
+        }
+
+        return new GetResponse(null, "could not find note with specified id", false);
     }
 
     @PostMapping("/createnote")
-    public ResponseEntity<String> createNote(@RequestBody Note note) {
+    @ResponseBody
+    public SaveResponse createNote(@RequestBody Note note) {
         noteRepository.save(note);
-        return ResponseEntity.status(HttpStatus.OK).body("Note created successfully!");
+        return new SaveResponse("Note successfully save", true);
     }
 }
