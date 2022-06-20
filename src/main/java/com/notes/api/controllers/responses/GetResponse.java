@@ -1,23 +1,25 @@
-package com.notes.api.controllers;
+package com.notes.api.controllers.responses;
 
-public class SaveResponse {
+import com.notes.api.entities.Note;
 
-    private long noteId;
+public class GetResponse {
+
+    private Note note;
     private String message;
     private boolean success;
 
-    public SaveResponse(long noteId, String message, boolean success) {
-        this.noteId = noteId;
+    public GetResponse(Note note, String message, boolean success) {
+        this.note = note;
         this.message = message;
         this.success = success;
     }
 
-    public long getNoteId() {
-        return noteId;
+    public Note getNote() {
+        return note;
     }
 
-    public void setNoteId(long noteId) {
-        this.noteId = noteId;
+    public void setNote(Note note) {
+        this.note = note;
     }
 
     public String getMessage() {

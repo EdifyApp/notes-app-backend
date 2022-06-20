@@ -1,9 +1,15 @@
 package com.notes.api.controllers;
 
+import com.notes.api.controllers.responses.GetResponse;
+import com.notes.api.controllers.responses.NoteInfoListResponse;
+import com.notes.api.controllers.responses.SaveResponse;
 import com.notes.api.entities.Note;
+import com.notes.api.repositories.NoteInfo;
 import com.notes.api.repositories.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class NoteController {
@@ -21,6 +27,13 @@ public class NoteController {
         }
 
         return new GetResponse(null, "could not find note with specified id", false);
+    }
+
+    @GetMapping("/getallnoteinfo")
+    @ResponseBody
+    public NoteInfoListResponse getAllNoteInfo() {
+        List<NoteInfo> noteInfoList = noteRepository.findAllBy();
+        return new NoteInfoListResponse(noteInfoList, true);
     }
 
     @PostMapping("/savenote")
