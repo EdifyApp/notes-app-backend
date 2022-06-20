@@ -2,12 +2,22 @@ package com.notes.api.controllers;
 
 public class SaveResponse {
 
+    private long noteId;
     private String message;
     private boolean success;
 
-    public SaveResponse(String message, boolean success) {
+    public SaveResponse(long noteId, String message, boolean success) {
+        this.noteId = noteId;
         this.message = message;
         this.success = success;
+    }
+
+    public long getNoteId() {
+        return noteId;
+    }
+
+    public void setNoteId(long noteId) {
+        this.noteId = noteId;
     }
 
     public String getMessage() {

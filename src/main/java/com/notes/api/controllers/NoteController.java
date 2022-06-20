@@ -23,10 +23,10 @@ public class NoteController {
         return new GetResponse(null, "could not find note with specified id", false);
     }
 
-    @PostMapping("/createnote")
+    @PostMapping("/savenote")
     @ResponseBody
     public SaveResponse createNote(@RequestBody Note note) {
         noteRepository.save(note);
-        return new SaveResponse("Note successfully save", true);
+        return new SaveResponse(note.getId(), "Note successfully save", true);
     }
 }
