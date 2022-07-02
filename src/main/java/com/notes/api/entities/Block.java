@@ -9,8 +9,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         property = "type",
         visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = DataBlock.class, name = "dataBlock"),
-        @JsonSubTypes.Type(value = FlashcardBlock.class, name = "flashcardBlock")
+        @JsonSubTypes.Type(value = RichTextBlock.class, name = "richTextBlock"),
+        @JsonSubTypes.Type(value = FlashcardBlock.class, name = "flashcardBlock"),
+        @JsonSubTypes.Type(value = CodeBlock.class, name = "codeBlock")
 })
 public abstract class Block {
 

@@ -1,6 +1,6 @@
 package com.notes.api.entities;
 
-public class DataBlock extends Block{
+public class CodeBlock extends Block {
     String data;
 
     public String getData() {
