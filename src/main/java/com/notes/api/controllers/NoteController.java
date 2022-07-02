@@ -9,6 +9,7 @@ import com.notes.api.repositories.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -39,6 +40,7 @@ public class NoteController {
     @PostMapping("/savenote")
     @ResponseBody
     public SaveResponse createNote(@RequestBody Note note) {
+        note.setLastSaved(new Date());
         noteRepository.save(note);
         return new SaveResponse(note.getId(), "Note successfully save", true);
     }

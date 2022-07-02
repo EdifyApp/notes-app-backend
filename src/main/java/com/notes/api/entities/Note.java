@@ -3,16 +3,24 @@ package com.notes.api.entities;
 import com.notes.api.converters.ListOfBlocksConverter;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="notes")
+@Table(name="note")
 public class Note {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String noteName;
+
+    @Column(
+            name = "last_saved",
+            nullable = false,
+            columnDefinition = "TIMESTAMP"
+    )
+    private Date lastSaved;
 
     @Convert(converter = ListOfBlocksConverter.class)
     @Column(columnDefinition="TEXT")
@@ -41,5 +49,13 @@ public class Note {
 
     public void setBlocks(List<Block> blocks) {
         this.blocks = blocks;
+    }
+
+    public Date getLastSaved() {
+        return lastSaved;
+    }
+
+    public void setLastSaved(Date lastSaved) {
+        this.lastSaved = lastSaved;
     }
 }
