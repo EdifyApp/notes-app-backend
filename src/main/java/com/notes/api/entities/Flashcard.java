@@ -1,19 +1,8 @@
 package com.notes.api.entities;
 
-public class Flashcard extends Block {
-    String type;
+public class Flashcard {
     String question;
     String answer;
-
-    @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getQuestion() {
         return question;

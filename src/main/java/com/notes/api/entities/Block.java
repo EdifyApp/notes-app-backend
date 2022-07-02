@@ -1,9 +1,20 @@
 package com.notes.api.entities;
 
-public class Block {
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "type",
+        visible = true)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = DataBlock.class, name = "dataBlock"),
+        @JsonSubTypes.Type(value = FlashcardBlock.class, name = "flashcardBlock")
+})
+public abstract class Block {
 
     String type;
-    String data;
 
     public String getType() {
         return type;
@@ -11,13 +22,5 @@ public class Block {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 }
