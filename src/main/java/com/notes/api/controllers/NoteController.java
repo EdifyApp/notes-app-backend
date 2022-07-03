@@ -4,7 +4,7 @@ import com.notes.api.controllers.responses.GetResponse;
 import com.notes.api.controllers.responses.NoteInfoListResponse;
 import com.notes.api.controllers.responses.SaveResponse;
 import com.notes.api.entities.Note;
-import com.notes.api.repositories.NoteInfo;
+import com.notes.api.responses.NoteInfo;
 import com.notes.api.repositories.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

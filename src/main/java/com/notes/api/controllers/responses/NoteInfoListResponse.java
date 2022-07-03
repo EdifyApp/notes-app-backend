@@ -1,6 +1,6 @@
 package com.notes.api.controllers.responses;
 
-import com.notes.api.repositories.NoteInfo;
+import com.notes.api.responses.NoteInfo;
 
 import java.util.List;
 
