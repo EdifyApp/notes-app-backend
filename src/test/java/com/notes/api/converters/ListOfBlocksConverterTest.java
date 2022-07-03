@@ -39,7 +39,7 @@ public class ListOfBlocksConverterTest {
 
         RichTextBlock block = (RichTextBlock) converted.get(0);
         Assertions.assertEquals(BlockType.RichTextBlock, block.getType());
-        Assertions.assertEquals("some date", block.getData());
+        Assertions.assertEquals("some test", block.getData());
     }
 
     @Test
