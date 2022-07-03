@@ -1,6 +1,11 @@
 package com.notes.api.entities;
 
 public class RichTextBlock extends Block{
+
+    public RichTextBlock() {
+        setType(BlockType.RichTextBlock);
+    }
+
     String data;
 
     public String getData() {

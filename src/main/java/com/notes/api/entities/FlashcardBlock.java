@@ -5,6 +5,10 @@ import java.util.List;
 public class FlashcardBlock extends Block {
     List<Flashcard> data;
 
+    public FlashcardBlock() {
+        setType(BlockType.FlashcardBlock);
+    }
+
     public List<Flashcard> getData() {
         return data;
     }
