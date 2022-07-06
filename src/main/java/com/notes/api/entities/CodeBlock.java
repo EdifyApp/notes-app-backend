@@ -1,10 +1,23 @@
 package com.notes.api.entities;
 
-public class CodeBlock extends Block {
+import javax.persistence.*;
+
+@Entity
+public class CodeBlock {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
+    @Column(columnDefinition="TEXT")
     String data;
 
-    public CodeBlock() {
-        setType(BlockType.CodeBlock);
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getData() {

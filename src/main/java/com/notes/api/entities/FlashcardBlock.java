@@ -1,19 +1,31 @@
 package com.notes.api.entities;
 
+import javax.persistence.*;
 import java.util.List;
 
-public class FlashcardBlock extends Block {
-    List<Flashcard> data;
+@Entity
+public class FlashcardBlock {
 
-    public FlashcardBlock() {
-        setType(BlockType.FlashcardBlock);
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    long id;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Flashcard> flashcards;
+
+    public long getId() {
+        return id;
     }
 
-    public List<Flashcard> getData() {
-        return data;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public void setData(List<Flashcard> data) {
-        this.data = data;
+    public List<Flashcard> getFlashcards() {
+        return flashcards;
+    }
+
+    public void setFlashcards(List<Flashcard> flashcards) {
+        this.flashcards = flashcards;
     }
 }
