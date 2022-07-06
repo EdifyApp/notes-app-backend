@@ -1,12 +1,24 @@
 package com.notes.api.entities;
 
-public class RichTextBlock extends Block{
+import javax.persistence.*;
 
-    public RichTextBlock() {
-        setType(BlockType.RichTextBlock);
+@Entity
+public class RichTextBlock {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
+    @Column(columnDefinition="TEXT")
+    private String data;
+
+    public long getId() {
+        return id;
     }
 
-    String data;
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getData() {
         return data;

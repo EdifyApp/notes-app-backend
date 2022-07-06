@@ -1,7 +1,5 @@
 package com.notes.api.entities;
 
-import com.notes.api.converters.ListOfBlocksConverter;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +20,14 @@ public class Note {
     )
     private Date lastSaved;
 
-    @Convert(converter = ListOfBlocksConverter.class)
-    @Column(columnDefinition="TEXT")
-    private List<Block> blocks;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<RichTextBlock> richTextBlocks;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    List<FlashcardBlock> flashcardBlocks;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    List<CodeBlock> codeBlocks;
 
     public long getId() {
         return id;
@@ -43,19 +45,35 @@ public class Note {
         this.noteName = noteName;
     }
 
-    public List<Block> getBlocks() {
-        return blocks;
-    }
-
-    public void setBlocks(List<Block> blocks) {
-        this.blocks = blocks;
-    }
-
     public Date getLastSaved() {
         return lastSaved;
     }
 
     public void setLastSaved(Date lastSaved) {
         this.lastSaved = lastSaved;
+    }
+
+    public List<RichTextBlock> getRichTextBlocks() {
+        return richTextBlocks;
+    }
+
+    public void setRichTextBlocks(List<RichTextBlock> richTextBlocks) {
+        this.richTextBlocks = richTextBlocks;
+    }
+
+    public List<FlashcardBlock> getFlashcardBlocks() {
+        return flashcardBlocks;
+    }
+
+    public void setFlashcardBlocks(List<FlashcardBlock> flashcardBlocks) {
+        this.flashcardBlocks = flashcardBlocks;
+    }
+
+    public List<CodeBlock> getCodeBlocks() {
+        return codeBlocks;
+    }
+
+    public void setCodeBlocks(List<CodeBlock> codeBlocks) {
+        this.codeBlocks = codeBlocks;
     }
 }
