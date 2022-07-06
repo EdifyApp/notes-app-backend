@@ -1,4 +1,4 @@
-package com.notes.api.entities;
+package com.notes.api.dto;
 
 public enum BlockType {
     RichTextBlock,
