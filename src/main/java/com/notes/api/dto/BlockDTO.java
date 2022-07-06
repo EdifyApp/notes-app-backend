@@ -2,9 +2,6 @@ package com.notes.api.dto;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.notes.api.entities.CodeBlock;
-import com.notes.api.entities.FlashcardBlock;
-import com.notes.api.entities.RichTextBlock;
 
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
@@ -12,9 +9,9 @@ import com.notes.api.entities.RichTextBlock;
         property = "type",
         visible = true)
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = RichTextBlock.class, name = BlockType.Constants.RichTextBlock),
-        @JsonSubTypes.Type(value = FlashcardBlock.class, name = BlockType.Constants.FlashcardBlock),
-        @JsonSubTypes.Type(value = CodeBlock.class, name = BlockType.Constants.CodeBlock)
+        @JsonSubTypes.Type(value = RichTextBlockDTO.class, name = BlockType.Constants.RichTextBlock),
+        @JsonSubTypes.Type(value = FlashcardBlockDTO.class, name = BlockType.Constants.FlashcardBlock),
+        @JsonSubTypes.Type(value = CodeBlockDTO.class, name = BlockType.Constants.CodeBlock)
 })
 public abstract class BlockDTO {
     private long id;
