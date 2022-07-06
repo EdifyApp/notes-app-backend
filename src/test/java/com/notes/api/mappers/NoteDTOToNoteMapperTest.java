@@ -1,9 +1,7 @@
 package com.notes.api.mappers;
 
 import com.notes.api.dto.*;
-import com.notes.api.entities.CodeBlock;
-import com.notes.api.entities.Note;
-import com.notes.api.entities.RichTextBlock;
+import com.notes.api.entities.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +12,21 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@SpringBootTest(classes = {NoteDTOToNoteMapperImpl.class})
+@SpringBootTest(
+        classes = {
+                NoteDTOToNoteMapperImpl.class,
+                BlockDTOToRichTextBlockMapperImpl.class,
+                BlockDTOToCodeBlockMapperImpl.class,
+                BlockDTOToFlashcardBlockMapperImpl.class,
+                FlashcardDTOToFlashcardMapperImpl.class
+        })
 public class NoteDTOToNoteMapperTest {
 
     @Autowired
     protected NoteDTOToNoteMapper mapper;
+
+    @Autowired
+    BlockDTOToFlashcardBlockMapper flashcardBlockMapper;
 
     @Test
     public void givenNoteDTOToNote_whenMaps_thenCorrect() {
@@ -83,6 +91,47 @@ public class NoteDTOToNoteMapperTest {
         Assertions.assertEquals("c = a + b", codeBlockDTO.getData());
     }
 
+    @Test
+    public void givenFlashcardBlockDTOToFlashcardBlock_whenMaps_thenCorrect() {
+        FlashcardBlockDTO flashcardBlockDTO = new FlashcardBlockDTO();
+        flashcardBlockDTO.setId(1);
+
+        List<FlashcardDTO> flashcardDTOs = new ArrayList<>();
+        flashcardBlockDTO.setData(flashcardDTOs);
+        flashcardDTOs.add(createFlashcardDTO(2, "what?", "yes"));
+        flashcardDTOs.add(createFlashcardDTO(3, "why?", "idk"));
+
+        FlashcardBlock flashcardBlock = flashcardBlockMapper.toFlashcardBlock(flashcardBlockDTO);
+
+        Assertions.assertEquals(flashcardBlockDTO.getId(), flashcardBlock.getId());
+        Assertions.assertEquals(2, flashcardBlock.getFlashcards().size());
+
+        Flashcard flashcard = flashcardBlock.getFlashcards().get(1);
+        Assertions.assertEquals(3, flashcard.getId());
+        Assertions.assertEquals("why?", flashcard.getQuestion());
+        Assertions.assertEquals("idk", flashcard.getAnswer());
+    }
+
+    @Test
+    public void givenFlashcardBlockToFlashcardBlockDTO_whenMaps_thenCorrect() {
+        FlashcardBlock flashcardBlock = new FlashcardBlock();
+        flashcardBlock.setId(22);
+        List<Flashcard> flashcards = new ArrayList<>();
+        flashcardBlock.setFlashcards(flashcards);
+        flashcards.add(createFlashcard(3, "what?", "yes"));
+        flashcards.add(createFlashcard(4, "why?", "idk"));
+
+        FlashcardBlockDTO flashcardBlockDTO = flashcardBlockMapper.toFlashcardBlockDTO(flashcardBlock);
+
+        Assertions.assertEquals(flashcardBlock.getId(), flashcardBlockDTO.getId());
+        Assertions.assertEquals(2, flashcardBlockDTO.getData().size());
+
+        FlashcardDTO flashcardDTO = flashcardBlockDTO.getData().get(0);
+        Assertions.assertEquals(3, flashcardDTO.getId());
+        Assertions.assertEquals("what?", flashcardDTO.getQuestion());
+        Assertions.assertEquals("yes", flashcardDTO.getAnswer());
+    }
+
     private BlockDTO createBlockDTO(BlockType type, long id, String data) {
         if (type == BlockType.RichTextBlock) {
             RichTextBlockDTO richTextBlockDTO = new RichTextBlockDTO();
@@ -96,6 +145,22 @@ public class NoteDTOToNoteMapperTest {
             return  codeBlockDTO;
         }
         return null;
+    }
+
+    private FlashcardDTO createFlashcardDTO(long id, String question, String answer) {
+        FlashcardDTO flashcardDTO = new FlashcardDTO();
+        flashcardDTO.setQuestion(question);
+        flashcardDTO.setAnswer(answer);
+        flashcardDTO.setId(id);
+        return flashcardDTO;
+    }
+
+    private Flashcard createFlashcard(long id, String question, String answer) {
+        Flashcard flashcard = new Flashcard();
+        flashcard.setQuestion(question);
+        flashcard.setAnswer(answer);
+        flashcard.setId(id);
+        return flashcard;
     }
 
     private RichTextBlock createRichTextBlock(String data, long id) {
