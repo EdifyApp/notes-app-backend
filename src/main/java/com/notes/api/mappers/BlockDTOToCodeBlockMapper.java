@@ -20,6 +20,7 @@ public abstract class BlockDTOToCodeBlockMapper {
         CodeBlock codeBlock = new CodeBlock();
         codeBlock.setId(codeBlockDTO.getId());
         codeBlock.setData(codeBlockDTO.getData());
+        codeBlock.setLocationIndex(codeBlockDTO.getLocationIndex());
         return codeBlock;
     }
 
@@ -29,6 +30,7 @@ public abstract class BlockDTOToCodeBlockMapper {
         CodeBlockDTO blockDTO = new CodeBlockDTO();
         blockDTO.setId(codeBlock.getId());
         blockDTO.setData(codeBlock.getData());
+        blockDTO.setLocationIndex(codeBlock.getLocationIndex());
         return blockDTO;
     }
 

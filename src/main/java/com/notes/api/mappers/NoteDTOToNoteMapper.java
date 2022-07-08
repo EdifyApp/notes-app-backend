@@ -59,6 +59,7 @@ public abstract class NoteDTOToNoteMapper {
             RichTextBlockDTO blockDTO = new RichTextBlockDTO();
             blockDTO.setData(richTextBlock.getData());
             blockDTO.setId(richTextBlock.getId());
+            blockDTO.setLocationIndex(richTextBlock.getLocationIndex());
             return blockDTO;
         }).collect(Collectors.toList());
     }
@@ -72,6 +73,7 @@ public abstract class NoteDTOToNoteMapper {
             CodeBlockDTO blockDTO = new CodeBlockDTO();
             blockDTO.setData(codeBlock.getData());
             blockDTO.setId(codeBlock.getId());
+            blockDTO.setLocationIndex(codeBlock.getLocationIndex());
             return blockDTO;
         }).collect(Collectors.toList());
     }
@@ -81,18 +83,21 @@ public abstract class NoteDTOToNoteMapper {
             return Collections.emptyList();
         }
 
-        return flashcardBlocks.stream().map(flashcardBlock -> {
-            FlashcardBlockDTO blockDTO = new FlashcardBlockDTO();
-            blockDTO.setId(flashcardBlock.getId());
-            blockDTO.setData(
-                    flashcardBlock.getFlashcards().stream().map(flashcard -> {
-                        FlashcardDTO flashcardDTO = new FlashcardDTO();
-                        flashcardDTO.setQuestion(flashcard.getQuestion());
-                        flashcardDTO.setAnswer(flashcard.getAnswer());
-                        return flashcardDTO;
-                    }).collect(Collectors.toList())
-            );
-            return blockDTO;
-        }).collect(Collectors.toList());
+        return flashcardBlocks.stream()
+                .filter(flashcardBlock -> flashcardBlock.getFlashcards() != null)
+                .map(flashcardBlock -> {
+                    FlashcardBlockDTO blockDTO = new FlashcardBlockDTO();
+                    blockDTO.setId(flashcardBlock.getId());
+                    blockDTO.setLocationIndex(flashcardBlock.getLocationIndex());
+                    blockDTO.setData(
+                            flashcardBlock.getFlashcards().stream().map(flashcard -> {
+                                FlashcardDTO flashcardDTO = new FlashcardDTO();
+                                flashcardDTO.setQuestion(flashcard.getQuestion());
+                                flashcardDTO.setAnswer(flashcard.getAnswer());
+                                return flashcardDTO;
+                            }).collect(Collectors.toList())
+                    );
+                    return blockDTO;
+                }).collect(Collectors.toList());
     }
 }
