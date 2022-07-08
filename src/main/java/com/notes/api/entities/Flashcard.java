@@ -7,13 +7,13 @@ public class Flashcard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    private long id;
 
     @Column(columnDefinition="TEXT")
-    String question;
+    private String question;
 
     @Column(columnDefinition="TEXT")
-    String answer;
+    private String answer;
 
     public long getId() {
         return id;

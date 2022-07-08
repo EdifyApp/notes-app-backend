@@ -7,10 +7,13 @@ public class CodeBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    private long id;
 
     @Column(columnDefinition="TEXT")
-    String data;
+    private String data;
+
+    @Column
+    private long locationIndex;
 
     public long getId() {
         return id;
@@ -26,5 +29,13 @@ public class CodeBlock {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public long getLocationIndex() {
+        return locationIndex;
+    }
+
+    public void setLocationIndex(long locationIndex) {
+        this.locationIndex = locationIndex;
     }
 }
