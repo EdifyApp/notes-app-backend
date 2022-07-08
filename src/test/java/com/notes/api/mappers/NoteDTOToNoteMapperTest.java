@@ -1,5 +1,6 @@
 package com.notes.api.mappers;
 
+import com.notes.api.TestUtils;
 import com.notes.api.dto.*;
 import com.notes.api.entities.*;
 import org.junit.jupiter.api.Assertions;
@@ -30,15 +31,9 @@ public class NoteDTOToNoteMapperTest {
 
     @Test
     public void givenNoteDTOToNote_whenMaps_thenCorrect() {
-        NoteDTO noteDTO = new NoteDTO();
-        noteDTO.setNoteName("note name");
-        noteDTO.setId(1);
-        noteDTO.setLastSaved(new Date(2022, Calendar.JUNE,5));
-
-        List<BlockDTO> blockDTOList = new ArrayList<>();
-        noteDTO.setBlocks(blockDTOList);
-        blockDTOList.add(createBlockDTO(BlockType.RichTextBlock, 2, "test data"));
-        blockDTOList.add(createBlockDTO(BlockType.CodeBlock, 3, "c = a + b"));
+        NoteDTO noteDTO = TestUtils.createNoteDTO(1, "test note", new Date(2022, Calendar.JUNE, 6));
+        noteDTO.getBlocks().add(TestUtils.createBlockDTO(BlockType.RichTextBlock, 2, "test data"));
+        noteDTO.getBlocks().add(TestUtils.createBlockDTO(BlockType.CodeBlock, 3, "c = a + b"));
 
         Note note = mapper.toNote(noteDTO);
 
@@ -59,18 +54,9 @@ public class NoteDTOToNoteMapperTest {
 
     @Test
     public void givenNoteToNoteDTO_whenMaps_thenCorrect() {
-        Note note = new Note();
-        note.setNoteName("test note");
-        note.setId(1);
-        note.setLastSaved(new Date(2022, Calendar.JUNE, 5));
-
-        List<RichTextBlock> richTextBlocks = new ArrayList<>();
-        richTextBlocks.add(createRichTextBlock("test data", 2));
-        note.setRichTextBlocks(richTextBlocks);
-
-        List<CodeBlock> codeBlocks = new ArrayList<>();
-        codeBlocks.add(createCodeBlock("c = a + b", 3));
-        note.setCodeBlocks(codeBlocks);
+        Note note = TestUtils.createNote(1, "test note", new Date(2022, Calendar.JUNE, 6));
+        note.getRichTextBlocks().add(TestUtils.createRichTextBlock("test data", 2));
+        note.getCodeBlocks().add(TestUtils.createCodeBlock("c = a + b", 3));
 
         NoteDTO noteDTO = mapper.toNoteDTO(note);
 
@@ -98,8 +84,8 @@ public class NoteDTOToNoteMapperTest {
 
         List<FlashcardDTO> flashcardDTOs = new ArrayList<>();
         flashcardBlockDTO.setData(flashcardDTOs);
-        flashcardDTOs.add(createFlashcardDTO(2, "what?", "yes"));
-        flashcardDTOs.add(createFlashcardDTO(3, "why?", "idk"));
+        flashcardDTOs.add(TestUtils.createFlashcardDTO(2, "what?", "yes"));
+        flashcardDTOs.add(TestUtils.createFlashcardDTO(3, "why?", "idk"));
 
         FlashcardBlock flashcardBlock = flashcardBlockMapper.toFlashcardBlock(flashcardBlockDTO);
 
@@ -118,8 +104,8 @@ public class NoteDTOToNoteMapperTest {
         flashcardBlock.setId(22);
         List<Flashcard> flashcards = new ArrayList<>();
         flashcardBlock.setFlashcards(flashcards);
-        flashcards.add(createFlashcard(3, "what?", "yes"));
-        flashcards.add(createFlashcard(4, "why?", "idk"));
+        flashcards.add(TestUtils.createFlashcard(3, "what?", "yes"));
+        flashcards.add(TestUtils.createFlashcard(4, "why?", "idk"));
 
         FlashcardBlockDTO flashcardBlockDTO = flashcardBlockMapper.toFlashcardBlockDTO(flashcardBlock);
 
@@ -130,50 +116,5 @@ public class NoteDTOToNoteMapperTest {
         Assertions.assertEquals(3, flashcardDTO.getId());
         Assertions.assertEquals("what?", flashcardDTO.getQuestion());
         Assertions.assertEquals("yes", flashcardDTO.getAnswer());
-    }
-
-    private BlockDTO createBlockDTO(BlockType type, long id, String data) {
-        if (type == BlockType.RichTextBlock) {
-            RichTextBlockDTO richTextBlockDTO = new RichTextBlockDTO();
-            richTextBlockDTO.setData(data);
-            richTextBlockDTO.setId(id);
-            return richTextBlockDTO;
-        } else if (type == BlockType.CodeBlock) {
-            CodeBlockDTO codeBlockDTO = new CodeBlockDTO();
-            codeBlockDTO.setData(data);
-            codeBlockDTO.setId(id);
-            return  codeBlockDTO;
-        }
-        return null;
-    }
-
-    private FlashcardDTO createFlashcardDTO(long id, String question, String answer) {
-        FlashcardDTO flashcardDTO = new FlashcardDTO();
-        flashcardDTO.setQuestion(question);
-        flashcardDTO.setAnswer(answer);
-        flashcardDTO.setId(id);
-        return flashcardDTO;
-    }
-
-    private Flashcard createFlashcard(long id, String question, String answer) {
-        Flashcard flashcard = new Flashcard();
-        flashcard.setQuestion(question);
-        flashcard.setAnswer(answer);
-        flashcard.setId(id);
-        return flashcard;
-    }
-
-    private RichTextBlock createRichTextBlock(String data, long id) {
-        RichTextBlock richTextBlock = new RichTextBlock();
-        richTextBlock.setId(id);
-        richTextBlock.setData(data);
-        return richTextBlock;
-    }
-
-    private CodeBlock createCodeBlock(String data, long id) {
-        CodeBlock codeBlock = new CodeBlock();
-        codeBlock.setData(data);
-        codeBlock.setId(3);
-        return codeBlock;
     }
 }
