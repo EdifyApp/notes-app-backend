@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public abstract class BlockDTO {
     private long id;
     private BlockType type;
+    private long locationIndex;
 
     public long getId() {
         return id;
@@ -31,5 +32,13 @@ public abstract class BlockDTO {
 
     public void setType(BlockType type) {
         this.type = type;
+    }
+
+    public long getLocationIndex() {
+        return locationIndex;
+    }
+
+    public void setLocationIndex(long locationIndex) {
+        this.locationIndex = locationIndex;
     }
 }
