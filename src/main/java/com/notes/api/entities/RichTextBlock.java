@@ -12,6 +12,9 @@ public class RichTextBlock {
     @Column(columnDefinition="TEXT")
     private String data;
 
+    @Column
+    private long locationIndex;
+
     public long getId() {
         return id;
     }
@@ -26,5 +29,13 @@ public class RichTextBlock {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public long getLocationIndex() {
+        return locationIndex;
+    }
+
+    public void setLocationIndex(long locationIndex) {
+        this.locationIndex = locationIndex;
     }
 }

@@ -8,10 +8,13 @@ public class FlashcardBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    private long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    List<Flashcard> flashcards;
+    private List<Flashcard> flashcards;
+
+    @Column
+    private long locationIndex;
 
     public long getId() {
         return id;
@@ -27,5 +30,13 @@ public class FlashcardBlock {
 
     public void setFlashcards(List<Flashcard> flashcards) {
         this.flashcards = flashcards;
+    }
+
+    public long getLocationIndex() {
+        return locationIndex;
+    }
+
+    public void setLocationIndex(long locationIndex) {
+        this.locationIndex = locationIndex;
     }
 }
