@@ -16,10 +16,8 @@ import java.util.List;
 @Service
 public class NoteService {
 
-    @Autowired
     NoteRepository noteRepository;
 
-    @Autowired
     NoteDTOToNoteMapper mapper;
 
     @Autowired

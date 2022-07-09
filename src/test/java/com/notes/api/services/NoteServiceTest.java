@@ -45,7 +45,7 @@ public class NoteServiceTest {
     }
 
     @Test
-    public void givenNoteDTO_whenRequested_theNoteDTOBlocksSorted(){
+    public void givenNoteDTO_whenRequested_thenNoteDTOBlocksSorted() {
         Note note = TestUtils.createNote(1, "test note", new Date());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 2, 4));
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 1, 1));
@@ -58,5 +58,14 @@ public class NoteServiceTest {
         NoteDTO noteDTO = noteService.getNoteById(1L);
 
         Assertions.assertTrue(TestUtils.isBlocksSorted(noteDTO));
+    }
+
+    @Test
+    public void givenNullNoteDTO_whenRequested_thenNoError() {
+        when(noteRepository.findById(anyLong())).thenReturn(null);
+
+        NoteDTO noteDTO = noteService.getNoteById(2L);
+
+        Assertions.assertNull(noteDTO);
     }
 }
