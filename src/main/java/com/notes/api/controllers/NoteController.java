@@ -1,5 +1,6 @@
 package com.notes.api.controllers;
 
+import com.notes.api.controllers.responses.FlashcardInfoListResponse;
 import com.notes.api.controllers.responses.GetResponse;
 import com.notes.api.controllers.responses.NoteInfoListResponse;
 import com.notes.api.controllers.responses.SaveResponse;
@@ -35,5 +36,11 @@ public class NoteController {
     public SaveResponse createNote(@RequestBody NoteDTO noteDTO) {
         long noteId = noteService.saveNote(noteDTO);
         return new SaveResponse(noteId, "Note successfully save", true);
+    }
+
+    @GetMapping("/getallflashcardinfo")
+    @ResponseBody
+    public FlashcardInfoListResponse getAllFlashcardInfo() {
+        return new FlashcardInfoListResponse(noteService.getAllFlashcardInfo(), true);
     }
 }

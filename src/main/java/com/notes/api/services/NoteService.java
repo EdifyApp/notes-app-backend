@@ -4,7 +4,9 @@ import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.Note;
 import com.notes.api.mappers.NoteDTOToNoteMapper;
+import com.notes.api.repositories.FlashcardRepository;
 import com.notes.api.repositories.NoteRepository;
+import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class NoteService {
     NoteRepository noteRepository;
 
     NoteDTOToNoteMapper mapper;
+
+    @Autowired
+    FlashcardRepository flashcardRepository;
 
     @Autowired
     public NoteService(NoteRepository repository, NoteDTOToNoteMapper mapper) {
@@ -48,4 +53,6 @@ public class NoteService {
         noteRepository.save(note);
         return note.getId();
     }
+
+    public List<FlashcardInfo> getAllFlashcardInfo() { return  flashcardRepository.findAllBy(); }
 }
