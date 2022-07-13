@@ -21,12 +21,15 @@ public class Note {
     private Date lastSaved;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "note_id", referencedColumnName = "id")
     List<RichTextBlock> richTextBlocks;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "note_id", referencedColumnName = "id")
     List<FlashcardBlock> flashcardBlocks;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "note_id", referencedColumnName = "id")
     List<CodeBlock> codeBlocks;
 
     public long getId() {
