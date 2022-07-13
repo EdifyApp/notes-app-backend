@@ -81,7 +81,7 @@ public class TestUtils {
     public static CodeBlock createCodeBlock(String data, long id) {
         CodeBlock codeBlock = new CodeBlock();
         codeBlock.setData(data);
-        codeBlock.setId(3);
+        codeBlock.setId(id);
         return codeBlock;
     }
 
@@ -89,6 +89,7 @@ public class TestUtils {
         FlashcardBlock flashcardBlock = new FlashcardBlock();
         flashcardBlock.setId(id);
         flashcardBlock.setLocationIndex(locationIndex);
+        flashcardBlock.setFlashcards(new ArrayList<>());
         return flashcardBlock;
     }
 

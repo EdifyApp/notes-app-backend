@@ -45,7 +45,7 @@ public class NoteServiceTest {
     }
 
     @Test
-    public void givenNoteDTO_whenRequested_thenNoteDTOBlocksSorted() {
+    public void givenNote_whenRequested_thenNoteDTOBlocksSorted() {
         Note note = TestUtils.createNote(1, "test note", new Date());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 2, 4));
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 1, 1));
