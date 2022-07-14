@@ -12,10 +12,11 @@ public class FlashcardBlock implements Serializable {
     private long id;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumns({
-        @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id"),
-        @JoinColumn(name = "note_id", referencedColumnName = "note_id")
-    })
+//    @JoinColumns({
+//        @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id"),
+//        @JoinColumn(name = "note_id", referencedColumnName = "note_id")
+//    })
+    @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id")
     private List<Flashcard> flashcards;
 
     @Column
