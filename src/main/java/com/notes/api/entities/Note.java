@@ -1,5 +1,7 @@
 package com.notes.api.entities;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -9,27 +11,23 @@ import java.util.List;
 public class Note {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
+    @Column(name = "note_name")
     private String noteName;
 
-    @Column(
-            name = "last_saved",
-            nullable = false,
-            columnDefinition = "TIMESTAMP"
-    )
+    @UpdateTimestamp
     private Date lastSaved;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "note_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
     List<RichTextBlock> richTextBlocks;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "note_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
     List<FlashcardBlock> flashcardBlocks;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "note_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
     List<CodeBlock> codeBlocks;
 
     public long getId() {

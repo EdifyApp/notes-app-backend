@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -48,11 +47,24 @@ public class NoteService {
     }
 
     public long saveNote(NoteDTO noteDTO) {
-        noteDTO.setLastSaved(new Date());
         Note note = mapper.toNote(noteDTO);
+        linkBlocksToNote(note);
         noteRepository.save(note);
         return note.getId();
     }
 
     public List<FlashcardInfo> getAllFlashcardInfo() { return  flashcardRepository.findAllBy(); }
+
+    private void linkBlocksToNote(Note note) {
+        note.getFlashcardBlocks().forEach(fb -> {
+            fb.setNote(note);
+            fb.getFlashcards().forEach(f -> {
+                f.setFlashcardBlock(fb);
+                f.setNote(note);
+            });
+        });
+
+        note.getRichTextBlocks().forEach( rtb -> rtb.setNote(note));
+        note.getCodeBlocks().forEach( cb -> cb.setNote(note));
+    }
 }
