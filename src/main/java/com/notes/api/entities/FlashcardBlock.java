@@ -8,22 +8,18 @@ import java.util.List;
 public class FlashcardBlock implements Serializable {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumns({
-//        @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id"),
-//        @JoinColumn(name = "note_id", referencedColumnName = "note_id")
-//    })
-    @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flashcardBlock", fetch = FetchType.LAZY)
     private List<Flashcard> flashcards;
 
-    @Column
+    @Column(name = "location_index")
     private long locationIndex;
 
-    @ManyToOne
-    @JoinColumn(name = "note_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "note_id")
     private Note note;
 
     public long getId() {

@@ -25,6 +25,17 @@ public class NoteRepositoryTest {
         flashcardBlock.getFlashcards().add(TestUtils.createFlashcard(0, "test question", "test answer"));
         note.getFlashcardBlocks().add(flashcardBlock);
 
+        note.getFlashcardBlocks().forEach(fb -> {
+            fb.setNote(note);
+            fb.getFlashcards().forEach(f -> {
+                f.setFlashcardBlock(fb);
+                f.setNote(note);
+            });
+        });
+
+        note.getRichTextBlocks().forEach( rtb -> rtb.setNote(note));
+        note.getCodeBlocks().forEach( cb -> cb.setNote(note));
+
         noteRepository.save(note);
 
         Note noteFromDb = noteRepository.findById(1);
@@ -47,8 +58,7 @@ public class NoteRepositoryTest {
         Assertions.assertEquals(1, flashcardBlockFromDb.getFlashcards().size());
 
         Flashcard flashcardFromDb = flashcardBlockFromDb.getFlashcards().get(0);
-//        Assertions.assertEquals(1, flashcardFromDb.getNote().getId()); //TODO: persist note id in flashcard table
-        Assertions.assertEquals(flashcardBlockFromDb.getId(), flashcardFromDb.getFlashcardBlock().getId());
+        Assertions.assertEquals(1, flashcardFromDb.getNote().getId());
         Assertions.assertEquals(1, flashcardFromDb.getFlashcardBlock().getNote().getId());
         Assertions.assertEquals("test question", flashcardFromDb.getQuestion());
         Assertions.assertEquals("test answer", flashcardFromDb.getAnswer());

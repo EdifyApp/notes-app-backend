@@ -6,17 +6,18 @@ import javax.persistence.*;
 public class RichTextBlock {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="TEXT", name = "data")
     private String data;
 
-    @Column
+    @Column(name = "location_index")
     private long locationIndex;
 
-    @ManyToOne
-    @JoinColumn(name = "note_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "note_id")
     private Note note;
 
     public long getId() {

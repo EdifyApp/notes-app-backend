@@ -7,21 +7,22 @@ import java.io.Serializable;
 public class Flashcard implements Serializable {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="TEXT", name = "question")
     private String question;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition="TEXT", name = "answer")
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "flashcardBlock_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "flashcardBlock_id")
     private FlashcardBlock flashcardBlock;
 
-    @ManyToOne
-    @JoinColumn(name = "note_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "note_id")
     private Note note;
 
     public long getId() {
