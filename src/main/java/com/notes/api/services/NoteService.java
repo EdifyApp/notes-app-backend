@@ -46,11 +46,11 @@ public class NoteService {
         return noteRepository.findAllBy();
     }
 
-    public long saveNote(NoteDTO noteDTO) {
+    public NoteDTO saveNote(NoteDTO noteDTO) {
         Note note = mapper.toNote(noteDTO);
         linkBlocksToNote(note);
         noteRepository.save(note);
-        return note.getId();
+        return mapper.toNoteDTO(note);
     }
 
     public List<FlashcardInfo> getAllFlashcardInfo() { return  flashcardRepository.findAllBy(); }

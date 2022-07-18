@@ -34,8 +34,8 @@ public class NoteController {
     @PostMapping("/savenote")
     @ResponseBody
     public SaveResponse createNote(@RequestBody NoteDTO noteDTO) {
-        long noteId = noteService.saveNote(noteDTO);
-        return new SaveResponse(noteId, "Note successfully save", true);
+        NoteDTO savedNoteDTO = noteService.saveNote(noteDTO);
+        return new SaveResponse(savedNoteDTO, "Note successfully save", true);
     }
 
     @GetMapping("/getallflashcardinfo")

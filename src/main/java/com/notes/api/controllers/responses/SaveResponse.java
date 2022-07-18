@@ -1,23 +1,25 @@
 package com.notes.api.controllers.responses;
 
+import com.notes.api.dto.NoteDTO;
+
 public class SaveResponse {
 
-    private long noteId;
+    private NoteDTO savedNote;
     private String message;
     private boolean success;
 
-    public SaveResponse(long noteId, String message, boolean success) {
-        this.noteId = noteId;
+    public SaveResponse(NoteDTO savedNote, String message, boolean success) {
+        this.savedNote = savedNote;
         this.message = message;
         this.success = success;
     }
 
-    public long getNoteId() {
-        return noteId;
+    public NoteDTO getNoteDTO() {
+        return savedNote;
     }
 
-    public void setNoteId(long noteId) {
-        this.noteId = noteId;
+    public void setNoteDTO(NoteDTO savedNote) {
+        this.savedNote = savedNote;
     }
 
     public String getMessage() {
