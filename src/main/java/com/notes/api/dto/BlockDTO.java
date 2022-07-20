@@ -18,6 +18,8 @@ public abstract class BlockDTO {
     private BlockType type;
     private long locationIndex;
 
+    private String fid;
+
     public long getId() {
         return id;
     }
@@ -41,4 +43,8 @@ public abstract class BlockDTO {
     public void setLocationIndex(long locationIndex) {
         this.locationIndex = locationIndex;
     }
+
+    public String getFid() { return fid; }
+
+    public void setFid(String fid) { this.fid = fid; }
 }

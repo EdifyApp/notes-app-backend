@@ -10,6 +10,9 @@ public class RichTextBlock {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(columnDefinition="TEXT", name = "fid")
+    private String fid;
+
     @Column(columnDefinition="TEXT", name = "data")
     private String data;
 
@@ -51,4 +54,8 @@ public class RichTextBlock {
     public void setNote(Note note) {
         this.note = note;
     }
+
+    public String getFid() { return fid; }
+
+    public void setFid(String fid) { this.fid = fid; }
 }
