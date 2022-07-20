@@ -19,7 +19,7 @@ public abstract class BlockDTOToRichTextBlockMapper {
         RichTextBlockDTO richTextBlockDTO = (RichTextBlockDTO) blockDTO;
         RichTextBlock richTextBlock = new RichTextBlock();
         richTextBlock.setId(richTextBlockDTO.getId());
-        richTextBlock.setFid(richTextBlock.getFid());
+        richTextBlock.setFid(richTextBlockDTO.getFid());
         richTextBlock.setData(richTextBlockDTO.getData());
         richTextBlock.setLocationIndex(richTextBlockDTO.getLocationIndex());
         return richTextBlock;
