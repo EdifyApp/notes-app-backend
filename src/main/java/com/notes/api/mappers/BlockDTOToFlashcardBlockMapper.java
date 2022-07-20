@@ -35,7 +35,7 @@ public abstract class BlockDTOToFlashcardBlockMapper {
         FlashcardBlockDTO flashcardBlockDTO = new FlashcardBlockDTO();
         flashcardBlockDTO.setId(flashcardBlock.getId());
         flashcardBlockDTO.setLocationIndex(flashcardBlock.getLocationIndex());
-        flashcardBlockDTO.setFid(flashcardBlockDTO.getFid());
+        flashcardBlockDTO.setFid(flashcardBlock.getFid());
         flashcardBlockDTO.setData(mapper.toFlashcardDTOs(flashcardBlock.getFlashcards()));
         return flashcardBlockDTO;
     }
