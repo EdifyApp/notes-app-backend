@@ -12,6 +12,9 @@ public class FlashcardBlock implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column(columnDefinition="TEXT", name = "fid")
+    private String fid;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "flashcardBlock", fetch = FetchType.LAZY)
     private List<Flashcard> flashcards;
 
@@ -53,4 +56,8 @@ public class FlashcardBlock implements Serializable {
     public void setNote(Note note) {
         this.note = note;
     }
+
+    public String getFid() { return fid; }
+
+    public void setFid(String fid) { this.fid = fid; }
 }
