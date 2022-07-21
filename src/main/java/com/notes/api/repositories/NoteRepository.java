@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
-
+    Integer deleteById(long id);
     Note findById(long id);
     List<NoteInfo> findAllBy();
 }

@@ -21,13 +21,13 @@ public class Note {
     @UpdateTimestamp
     private Date lastSaved;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
     List<RichTextBlock> richTextBlocks;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
     List<FlashcardBlock> flashcardBlocks;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
     List<CodeBlock> codeBlocks;
 
     public long getId() {

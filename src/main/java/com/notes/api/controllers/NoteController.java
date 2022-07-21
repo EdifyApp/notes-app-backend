@@ -1,9 +1,6 @@
 package com.notes.api.controllers;
 
-import com.notes.api.controllers.responses.FlashcardInfoListResponse;
-import com.notes.api.controllers.responses.GetResponse;
-import com.notes.api.controllers.responses.NoteInfoListResponse;
-import com.notes.api.controllers.responses.SaveResponse;
+import com.notes.api.controllers.responses.*;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.services.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +32,19 @@ public class NoteController {
     @ResponseBody
     public SaveResponse createNote(@RequestBody NoteDTO noteDTO) {
         NoteDTO savedNoteDTO = noteService.saveNote(noteDTO);
-        return new SaveResponse(savedNoteDTO, "Note successfully save", true);
+        return new SaveResponse(savedNoteDTO, "Note successfully saved", true);
     }
 
     @GetMapping("/getallflashcardinfo")
     @ResponseBody
     public FlashcardInfoListResponse getAllFlashcardInfo() {
         return new FlashcardInfoListResponse(noteService.getAllFlashcardInfo(), true);
+    }
+
+    @PostMapping("/deletenote")
+    @ResponseBody
+    public DeleteResponse deleteResponseNote(@RequestParam long id) {
+       Integer deletedNote = noteService.deleteNoteById(id);
+       return new DeleteResponse("Note deleted", deletedNote != null);
     }
 }
