@@ -15,7 +15,7 @@ public class FlashcardBlock implements Serializable {
     @Column(columnDefinition="TEXT", name = "fid")
     private String fid;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flashcardBlock", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flashcardBlock", fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Flashcard> flashcards;
 
     @Column(name = "location_index")

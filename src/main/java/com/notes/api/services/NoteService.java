@@ -10,6 +10,7 @@ import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -40,6 +41,11 @@ public class NoteService {
 
         noteDTO.getBlocks().sort(Comparator.comparing(BlockDTO::getLocationIndex));
         return noteDTO;
+    }
+
+    @Transactional
+    public Integer deleteNoteById(long id) {
+        return noteRepository.deleteById(id);
     }
 
     public List<NoteInfo> getAllNoteInfo() {
