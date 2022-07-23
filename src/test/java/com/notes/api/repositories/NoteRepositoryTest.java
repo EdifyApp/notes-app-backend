@@ -6,19 +6,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class NoteRepositoryTest {
 
     @Autowired
     NoteRepository noteRepository;
 
     @Test
-    public void givenNoteDTO_whenSaved_thenSameNoteDTOReturned() {
+    public void givenNote_whenSaved_thenSameNoteReturned() {
         Note note = TestUtils.createNote(0, "test note", new Date());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
@@ -40,7 +42,7 @@ public class NoteRepositoryTest {
 
         noteRepository.save(note);
 
-        Note noteFromDb = noteRepository.findById(1);
+        Note noteFromDb = noteRepository.findById(note.getId());
 
         Assertions.assertNotNull(noteFromDb);
         Assertions.assertEquals(1, noteFromDb.getId() );
@@ -69,7 +71,7 @@ public class NoteRepositoryTest {
     @Test
     @Transactional
     public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
-        Note note = TestUtils.createNote(5, "test note", new Date());
+        Note note = TestUtils.createNote(0, "test note", new Date());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
 
@@ -91,7 +93,7 @@ public class NoteRepositoryTest {
         noteRepository.save(note);
 
         noteRepository.deleteById(note.getId());
-        Assertions.assertNull(noteRepository.findById(5));
+        Assertions.assertNull(noteRepository.findById(note.getId()));
     }
 
     @Test
@@ -117,7 +119,7 @@ public class NoteRepositoryTest {
 
         noteRepository.save(note);
 
-        Note updatedNote = TestUtils.createNote(1, "test note", new Date());
+        Note updatedNote = TestUtils.createNote(note.getId(), "test note", new Date());
         updatedNote.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         updatedNote.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
 
@@ -126,7 +128,7 @@ public class NoteRepositoryTest {
 
         noteRepository.save(updatedNote);
 
-        Note noteFromDb = noteRepository.findById(1);
+        Note noteFromDb = noteRepository.findById(updatedNote.getId());
         List<RichTextBlock> richTextBlocksFromDb = noteFromDb.getRichTextBlocks();
         List<CodeBlock> codeBlocksFromDb = noteFromDb.getCodeBlocks();
         List<FlashcardBlock> flashcardBlocksFromDb = noteFromDb.getFlashcardBlocks();
