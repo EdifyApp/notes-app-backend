@@ -21,6 +21,9 @@ public class FlashcardBlock implements Serializable {
     @Column(name = "location_index")
     private long locationIndex;
 
+    @Column(name = "name", columnDefinition = "TEXT")
+    private String name;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id")
     private Note note;
@@ -60,4 +63,12 @@ public class FlashcardBlock implements Serializable {
     public String getFid() { return fid; }
 
     public void setFid(String fid) { this.fid = fid; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
