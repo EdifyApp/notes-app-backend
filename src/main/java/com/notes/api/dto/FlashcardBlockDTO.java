@@ -6,6 +6,8 @@ public class FlashcardBlockDTO extends BlockDTO {
 
     private List<FlashcardDTO> data;
 
+    private String name;
+
     public FlashcardBlockDTO() {
        setType(BlockType.FlashcardBlock);
     }
@@ -16,5 +18,13 @@ public class FlashcardBlockDTO extends BlockDTO {
 
     public void setData(List<FlashcardDTO> data) {
         this.data = data;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
