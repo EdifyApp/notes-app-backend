@@ -3,6 +3,7 @@ package com.notes.api.repositories;
 import com.notes.api.TestUtils;
 import com.notes.api.entities.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +20,8 @@ public class NoteRepositoryTest {
     @Autowired
     NoteRepository noteRepository;
 
-    @Test
-    public void givenNote_whenSaved_thenSameNoteReturned() {
+    @BeforeEach
+    public void saveNote() {
         Note note = TestUtils.createNote(0, "test note", new Date());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
@@ -41,8 +42,11 @@ public class NoteRepositoryTest {
         note.getCodeBlocks().forEach( cb -> cb.setNote(note));
 
         noteRepository.save(note);
+    }
 
-        Note noteFromDb = noteRepository.findById(note.getId());
+    @Test
+    public void givenNote_whenSaved_thenSameNoteReturned() {
+        Note noteFromDb = noteRepository.findById(1);
 
         Assertions.assertNotNull(noteFromDb);
         Assertions.assertEquals(1, noteFromDb.getId() );
@@ -71,55 +75,13 @@ public class NoteRepositoryTest {
     @Test
     @Transactional
     public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
-        Note note = TestUtils.createNote(0, "test note", new Date());
-        note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
-        note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
-
-        FlashcardBlock flashcardBlock = TestUtils.createFlashcardBlock(0, 3);
-        flashcardBlock.getFlashcards().add(TestUtils.createFlashcard(0, "test question", "test answer"));
-        note.getFlashcardBlocks().add(flashcardBlock);
-
-        note.getFlashcardBlocks().forEach(fb -> {
-            fb.setNote(note);
-            fb.getFlashcards().forEach(f -> {
-                f.setFlashcardBlock(fb);
-                f.setNote(note);
-            });
-        });
-
-        note.getRichTextBlocks().forEach( rtb -> rtb.setNote(note));
-        note.getCodeBlocks().forEach( cb -> cb.setNote(note));
-
-        noteRepository.save(note);
-
-        noteRepository.deleteById(note.getId());
-        Assertions.assertNull(noteRepository.findById(note.getId()));
+        noteRepository.deleteById(1);
+        Assertions.assertNull(noteRepository.findById(1));
     }
 
     @Test
     public void givenNoteDTO_whenNewDTOReceived_thenOldCellsDeleted() {
-        Note note = TestUtils.createNote(0, "test note", new Date());
-        note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
-        note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
-
-        FlashcardBlock flashcardBlock = TestUtils.createFlashcardBlock(0, 3);
-        flashcardBlock.getFlashcards().add(TestUtils.createFlashcard(0, "test question", "test answer"));
-        note.getFlashcardBlocks().add(flashcardBlock);
-
-        note.getFlashcardBlocks().forEach(fb -> {
-            fb.setNote(note);
-            fb.getFlashcards().forEach(f -> {
-                f.setFlashcardBlock(fb);
-                f.setNote(note);
-            });
-        });
-
-        note.getRichTextBlocks().forEach( rtb -> rtb.setNote(note));
-        note.getCodeBlocks().forEach( cb -> cb.setNote(note));
-
-        noteRepository.save(note);
-
-        Note updatedNote = TestUtils.createNote(note.getId(), "test note", new Date());
+        Note updatedNote = TestUtils.createNote(1, "test note", new Date());
         updatedNote.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         updatedNote.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
 
