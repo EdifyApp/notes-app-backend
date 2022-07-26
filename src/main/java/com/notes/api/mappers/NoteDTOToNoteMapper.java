@@ -13,6 +13,7 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Mapper(
@@ -57,6 +58,7 @@ public abstract class NoteDTOToNoteMapper {
         List<BlockDTO> blockDTOs = richTextBlockMapper.toBlockDTOs(richTextBlocks);
         blockDTOs.addAll(codeBlockMapper.toBlockDTOs(codeBlocks));
         blockDTOs.addAll(flashcardBlockMapper.toFlashcardBlockDTOs(flashcardBlocks));
+        blockDTOs.sort(Comparator.comparing(BlockDTO::getLocationIndex));
         noteDTO.setBlocks(blockDTOs);
     }
 }
