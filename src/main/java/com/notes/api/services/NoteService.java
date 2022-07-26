@@ -56,7 +56,9 @@ public class NoteService {
         Note note = mapper.toNote(noteDTO);
         linkBlocksToNote(note);
         noteRepository.save(note);
-        return mapper.toNoteDTO(note);
+        NoteDTO savedNoteDTO = mapper.toNoteDTO(note);
+        savedNoteDTO.getBlocks().sort(Comparator.comparing(BlockDTO::getLocationIndex));
+        return savedNoteDTO;
     }
 
     public List<FlashcardInfo> getAllFlashcardInfo() { return  flashcardRepository.findAllBy(); }
