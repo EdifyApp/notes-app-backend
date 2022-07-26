@@ -58,7 +58,6 @@ public abstract class NoteDTOToNoteMapper {
         List<BlockDTO> blockDTOs = richTextBlockMapper.toBlockDTOs(richTextBlocks);
         blockDTOs.addAll(codeBlockMapper.toBlockDTOs(codeBlocks));
         blockDTOs.addAll(flashcardBlockMapper.toFlashcardBlockDTOs(flashcardBlocks));
-        blockDTOs.sort(Comparator.comparing(BlockDTO::getLocationIndex));
         noteDTO.setBlocks(blockDTOs);
     }
 }
