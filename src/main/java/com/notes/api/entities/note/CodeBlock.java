@@ -1,11 +1,9 @@
-package com.notes.api.entities;
+package com.notes.api.entities.note;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
 
 @Entity
-public class FlashcardBlock implements Serializable {
+public class CodeBlock {
 
     @Id
     @Column(name = "id")
@@ -15,14 +13,11 @@ public class FlashcardBlock implements Serializable {
     @Column(columnDefinition="TEXT", name = "fid")
     private String fid;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "flashcardBlock", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Flashcard> flashcards;
+    @Column(columnDefinition="TEXT", name = "data")
+    private String data;
 
     @Column(name = "location_index")
     private long locationIndex;
-
-    @Column(name = "name", columnDefinition = "TEXT")
-    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id")
@@ -36,12 +31,12 @@ public class FlashcardBlock implements Serializable {
         this.id = id;
     }
 
-    public List<Flashcard> getFlashcards() {
-        return flashcards;
+    public String getData() {
+        return data;
     }
 
-    public void setFlashcards(List<Flashcard> flashcards) {
-        this.flashcards = flashcards;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public long getLocationIndex() {
@@ -63,12 +58,4 @@ public class FlashcardBlock implements Serializable {
     public String getFid() { return fid; }
 
     public void setFid(String fid) { this.fid = fid; }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

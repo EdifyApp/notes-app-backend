@@ -2,7 +2,7 @@ package com.notes.api.services;
 
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
-import com.notes.api.entities.Note;
+import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.NoteDTOToNoteMapper;
 import com.notes.api.repositories.FlashcardRepository;
 import com.notes.api.repositories.NoteRepository;

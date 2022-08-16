@@ -1,7 +1,7 @@
 package com.notes.api.mappers;
 
 import com.notes.api.dto.FlashcardDTO;
-import com.notes.api.entities.Flashcard;
+import com.notes.api.entities.note.Flashcard;
 import org.mapstruct.Mapper;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.notes.api;
 
 import com.notes.api.dto.*;
-import com.notes.api.entities.*;
+import com.notes.api.entities.note.*;
 
 import java.util.ArrayList;
 import java.util.Date;

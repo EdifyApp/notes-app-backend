@@ -2,7 +2,7 @@ package com.notes.api.services;
 
 import com.notes.api.TestUtils;
 import com.notes.api.dto.NoteDTO;
-import com.notes.api.entities.Note;
+import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.*;
 import com.notes.api.repositories.NoteRepository;
 import org.junit.jupiter.api.Assertions;
