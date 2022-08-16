@@ -20,3 +20,6 @@ gradle-app.setting
 
 # ignore db
 db/*
+
+# ignore API key
+firebase-auth-credentials.json
