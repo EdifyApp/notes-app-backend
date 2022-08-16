@@ -1,5 +1,6 @@
-package com.notes.api.entities;
+package com.notes.api.entities.note;
 
+import com.notes.api.entities.User;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -22,13 +23,17 @@ public class Note {
     private Date lastSaved;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
-    List<RichTextBlock> richTextBlocks;
+    private List<RichTextBlock> richTextBlocks;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
-    List<FlashcardBlock> flashcardBlocks;
+    private List<FlashcardBlock> flashcardBlocks;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "note", fetch = FetchType.LAZY, orphanRemoval = true)
-    List<CodeBlock> codeBlocks;
+    private List<CodeBlock> codeBlocks;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public long getId() {
         return id;
@@ -76,5 +81,13 @@ public class Note {
 
     public void setCodeBlocks(List<CodeBlock> codeBlocks) {
         this.codeBlocks = codeBlocks;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
