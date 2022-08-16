@@ -3,7 +3,7 @@ package com.notes.api.mappers;
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.BlockType;
 import com.notes.api.dto.RichTextBlockDTO;
-import com.notes.api.entities.RichTextBlock;
+import com.notes.api.entities.note.RichTextBlock;
 import org.mapstruct.Mapper;
 
 import java.util.List;

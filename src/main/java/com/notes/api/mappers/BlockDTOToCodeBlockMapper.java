@@ -3,7 +3,7 @@ package com.notes.api.mappers;
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.BlockType;
 import com.notes.api.dto.CodeBlockDTO;
-import com.notes.api.entities.CodeBlock;
+import com.notes.api.entities.note.CodeBlock;
 import org.mapstruct.Mapper;
 
 import java.util.List;

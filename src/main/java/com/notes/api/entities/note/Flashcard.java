@@ -1,4 +1,4 @@
-package com.notes.api.entities;
+package com.notes.api.entities.note;
 
 import javax.persistence.*;
 import java.io.Serializable;

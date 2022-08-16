@@ -1,7 +1,7 @@
 package com.notes.api.repositories;
 
 import com.notes.api.TestUtils;
-import com.notes.api.entities.*;
+import com.notes.api.entities.note.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

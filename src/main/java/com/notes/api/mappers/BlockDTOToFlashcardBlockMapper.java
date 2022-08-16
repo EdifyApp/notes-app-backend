@@ -3,7 +3,7 @@ package com.notes.api.mappers;
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.BlockType;
 import com.notes.api.dto.FlashcardBlockDTO;
-import com.notes.api.entities.FlashcardBlock;
+import com.notes.api.entities.note.FlashcardBlock;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 

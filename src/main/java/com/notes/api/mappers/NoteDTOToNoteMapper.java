@@ -2,10 +2,10 @@ package com.notes.api.mappers;
 
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
-import com.notes.api.entities.CodeBlock;
-import com.notes.api.entities.FlashcardBlock;
-import com.notes.api.entities.Note;
-import com.notes.api.entities.RichTextBlock;
+import com.notes.api.entities.note.CodeBlock;
+import com.notes.api.entities.note.FlashcardBlock;
+import com.notes.api.entities.note.Note;
+import com.notes.api.entities.note.RichTextBlock;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -13,7 +13,6 @@ import org.mapstruct.MappingTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Mapper(

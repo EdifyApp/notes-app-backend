@@ -1,6 +1,6 @@
 package com.notes.api.repositories;
 
-import com.notes.api.entities.Flashcard;
+import com.notes.api.entities.note.Flashcard;
 import com.notes.api.responses.FlashcardInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
