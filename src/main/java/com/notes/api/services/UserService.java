@@ -2,7 +2,6 @@ package com.notes.api.services;
 
 import com.notes.api.auth.Auth;
 import com.notes.api.auth.AuthUserCredentials;
-import com.notes.api.auth.FirebaseAuthImpl;
 import com.notes.api.entities.User;
 import com.notes.api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +11,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     @Autowired
-    Auth firebaseAuthImpl;
+    Auth authImpl;
 
     @Autowired
     UserRepository userRepository;
 
-    public UserService() {
-        this.firebaseAuthImpl = new FirebaseAuthImpl();
+    public UserService(Auth authImplementation) {
+        this.authImpl = authImplementation;
     }
 
     public String signOnUser(String token) {
-        AuthUserCredentials authUserCredentials = firebaseAuthImpl.verifyToken(token);
+        AuthUserCredentials authUserCredentials = authImpl.verifyToken(token);
 
         if (authUserCredentials != null && ! userRepository.existsById(authUserCredentials.getUid())) {
             User newUser = new User();

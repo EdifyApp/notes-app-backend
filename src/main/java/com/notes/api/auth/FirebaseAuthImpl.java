@@ -8,13 +8,16 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 @Component
-@Qualifier("firebaseAuthImpl")
+@ConditionalOnProperty(
+        value="env",
+        havingValue = "dev"
+)
 public class FirebaseAuthImpl implements Auth{
 
     Logger logger = LoggerFactory.getLogger(FirebaseAuthImpl.class);
