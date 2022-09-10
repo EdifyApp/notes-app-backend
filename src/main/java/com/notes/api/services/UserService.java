@@ -1,42 +1,51 @@
 package com.notes.api.services;
 
-import com.notes.api.auth.Auth;
-import com.notes.api.auth.AuthUserCredentials;
-import com.notes.api.auth.FirebaseAuthImpl;
+import com.google.firebase.auth.FirebaseToken;
 import com.notes.api.entities.User;
 import com.notes.api.repositories.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    @Autowired
-    Auth firebaseAuthImpl;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     UserRepository userRepository;
 
-    public UserService() {
-        this.firebaseAuthImpl = new FirebaseAuthImpl();
+    public String signOnUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        FirebaseToken firebaseToken = (FirebaseToken) authentication.getCredentials();
+
+        if (firebaseToken == null) {
+            return "";
+        }
+
+        if (! userRepository.existsById(firebaseToken.getUid())) {
+            logger.info("creating new user");
+            createNewUser(firebaseToken.getName(), firebaseToken.getUid(), firebaseToken.getEmail());
+        }
+        return firebaseToken.getUid();
     }
 
-    public String signOnUser(String token) {
-        AuthUserCredentials authUserCredentials = firebaseAuthImpl.verifyToken(token);
+    public User getUserById(String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.orElse(null);
+    }
 
-        if (authUserCredentials != null && ! userRepository.existsById(authUserCredentials.getUid())) {
-            User newUser = new User();
-            newUser.setId(authUserCredentials.getUid());
-            newUser.setName(authUserCredentials.getName());
-            newUser.setEmailAddress(authUserCredentials.getEmailAddress());
-            userRepository.save(newUser);
-            return newUser.getId();
-        }
+    public void createNewUser(String name, String id, String email){
+        User newUser = new User();
+        newUser.setEmailAddress(email);
+        newUser.setId(id);
+        newUser.setName(name);
 
-        if (authUserCredentials != null) {
-            return authUserCredentials.getUid();
-        }
-
-        return "";
+        userRepository.save(newUser);
     }
 }
