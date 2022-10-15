@@ -1,5 +1,7 @@
 package com.notes.api.services;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.notes.api.entities.User;
 import com.notes.api.repositories.UserRepository;
@@ -20,19 +22,24 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public String signOnUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        FirebaseToken firebaseToken = (FirebaseToken) authentication.getCredentials();
+    public String signOnUser(String authToken) {
+        try {
+            FirebaseToken firebaseToken = FirebaseAuth.getInstance().verifyIdToken(authToken);
+            if (! userRepository.existsById(firebaseToken.getUid())) {
+                logger.info("creating new user");
+                createNewUser(firebaseToken.getName(), firebaseToken.getUid(), firebaseToken.getEmail());
+            }
+            return firebaseToken.getUid();
 
-        if (firebaseToken == null) {
+        } catch (FirebaseAuthException exception) {
+            logger.info("Firebase error: {}", exception.getMessage());
             return "";
         }
+    }
 
-        if (! userRepository.existsById(firebaseToken.getUid())) {
-            logger.info("creating new user");
-            createNewUser(firebaseToken.getName(), firebaseToken.getUid(), firebaseToken.getEmail());
-        }
-        return firebaseToken.getUid();
+    public User getSignedOnUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (User) authentication.getPrincipal();
     }
 
     public User getUserById(String id) {
@@ -40,7 +47,7 @@ public class UserService {
         return userOptional.orElse(null);
     }
 
-    public void createNewUser(String name, String id, String email){
+    private void createNewUser(String name, String id, String email){
         User newUser = new User();
         newUser.setEmailAddress(email);
         newUser.setId(id);
