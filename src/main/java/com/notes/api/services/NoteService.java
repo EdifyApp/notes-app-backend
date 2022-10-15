@@ -26,14 +26,13 @@ public class NoteService {
     @Autowired
     FlashcardRepository flashcardRepository;
 
-    @Autowired
     UserService userService;
 
-
     @Autowired
-    public NoteService(NoteRepository repository, NoteDTOToNoteMapper mapper) {
+    public NoteService(NoteRepository repository, NoteDTOToNoteMapper mapper, UserService userService) {
         this.mapper = mapper;
         this.noteRepository = repository;
+        this.userService = userService;
     }
 
     public NoteDTO getNoteById(long id) {
