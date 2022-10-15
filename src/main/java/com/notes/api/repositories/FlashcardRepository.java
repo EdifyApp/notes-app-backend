@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface FlashcardRepository extends JpaRepository<Flashcard, Integer> {
-    List<FlashcardInfo> findAllBy();
+    List<FlashcardInfo> findAllByUserId(String userId);
 }

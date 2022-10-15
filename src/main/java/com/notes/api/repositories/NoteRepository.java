@@ -11,5 +11,6 @@ import java.util.List;
 public interface NoteRepository extends JpaRepository<Note, Integer> {
     Integer deleteById(long id);
     Note findById(long id);
-    List<NoteInfo> findAllBy();
+    Note findByIdAndUserId(long id, String userId);
+    List<NoteInfo> findAllByUserId(String userId);
 }
