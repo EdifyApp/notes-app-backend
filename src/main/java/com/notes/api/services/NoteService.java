@@ -2,6 +2,7 @@ package com.notes.api.services;
 
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
+import com.notes.api.entities.User;
 import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.NoteDTOToNoteMapper;
 import com.notes.api.repositories.FlashcardRepository;
@@ -26,13 +27,18 @@ public class NoteService {
     FlashcardRepository flashcardRepository;
 
     @Autowired
+    UserService userService;
+
+
+    @Autowired
     public NoteService(NoteRepository repository, NoteDTOToNoteMapper mapper) {
         this.mapper = mapper;
         this.noteRepository = repository;
     }
 
     public NoteDTO getNoteById(long id) {
-        Note note = noteRepository.findById(id);
+        User user = userService.getSignedOnUser();
+        Note note = noteRepository.findByIdAndUserId(id, user.getId());
         NoteDTO noteDTO = mapper.toNoteDTO(note);
 
         if (noteDTO == null) {
@@ -49,26 +55,33 @@ public class NoteService {
     }
 
     public List<NoteInfo> getAllNoteInfo() {
-        return noteRepository.findAllBy();
+        String userId = userService.getSignedOnUser().getId();
+        return noteRepository.findAllByUserId(userId);
     }
 
     public NoteDTO saveNote(NoteDTO noteDTO) {
+        User user = userService.getSignedOnUser();
         Note note = mapper.toNote(noteDTO);
-        linkBlocksToNote(note);
+        note.setUser(user);
+        linkBlocksToNote(note, user);
         noteRepository.save(note);
         NoteDTO savedNoteDTO = mapper.toNoteDTO(note);
         savedNoteDTO.getBlocks().sort(Comparator.comparing(BlockDTO::getLocationIndex));
         return savedNoteDTO;
     }
 
-    public List<FlashcardInfo> getAllFlashcardInfo() { return  flashcardRepository.findAllBy(); }
+    public List<FlashcardInfo> getAllFlashcardInfo() {
+        User user = userService.getSignedOnUser();
+        return flashcardRepository.findAllByUserId(user.getId());
+    }
 
-    private void linkBlocksToNote(Note note) {
+    private void linkBlocksToNote(Note note, User user) {
         note.getFlashcardBlocks().forEach(fb -> {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
+                f.setUser(user);
             });
         });
 

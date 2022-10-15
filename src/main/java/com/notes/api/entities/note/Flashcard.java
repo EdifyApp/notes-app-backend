@@ -1,5 +1,7 @@
 package com.notes.api.entities.note;
 
+import com.notes.api.entities.User;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -24,6 +26,10 @@ public class Flashcard implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "note_id")
     private Note note;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public long getId() {
         return id;
@@ -63,5 +69,13 @@ public class Flashcard implements Serializable {
 
     public void setNote(Note note) {
         this.note = note;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
