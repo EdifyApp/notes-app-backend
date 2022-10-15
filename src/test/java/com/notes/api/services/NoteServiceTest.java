@@ -2,6 +2,7 @@ package com.notes.api.services;
 
 import com.notes.api.TestUtils;
 import com.notes.api.dto.NoteDTO;
+import com.notes.api.entities.User;
 import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.*;
 import com.notes.api.repositories.NoteRepository;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
 
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -37,23 +39,28 @@ public class NoteServiceTest {
     @Mock
     NoteRepository noteRepository;
 
+    @Mock
+    UserService userService;
+
     NoteService noteService;
 
     @BeforeEach
     public void setUp() {
-        noteService = new NoteService(noteRepository, mapper);
+        noteService = new NoteService(noteRepository, mapper, userService);
     }
 
     @Test
     public void givenNote_whenRequested_thenNoteDTOBlocksSorted() {
         Note note = TestUtils.createNote(1, "test note", new Date());
+        note.setUser(getMockUser());
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 2, 4));
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 1, 1));
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 2));
         note.getFlashcardBlocks().add(TestUtils.createFlashcardBlock(3, 3));
         note.getFlashcardBlocks().add(TestUtils.createFlashcardBlock(4, 0));
 
-        when(noteRepository.findById(anyLong())).thenReturn(note);
+        when(noteRepository.findByIdAndUserId(anyLong(), anyString())).thenReturn(note);
+        when(userService.getSignedOnUser()).thenReturn(getMockUser());
 
         NoteDTO noteDTO = noteService.getNoteById(1L);
 
@@ -62,10 +69,17 @@ public class NoteServiceTest {
 
     @Test
     public void givenNullNoteDTO_whenRequested_thenNoError() {
-        when(noteRepository.findById(anyLong())).thenReturn(null);
+        when(noteRepository.findByIdAndUserId(anyLong(), anyString())).thenReturn(null);
+        when(userService.getSignedOnUser()).thenReturn(getMockUser());
 
         NoteDTO noteDTO = noteService.getNoteById(2L);
 
         Assertions.assertNull(noteDTO);
+    }
+
+    private User getMockUser() {
+        User user = new User();
+        user.setId("firebase-id");
+        return user;
     }
 }
