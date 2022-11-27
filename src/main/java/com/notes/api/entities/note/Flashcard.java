@@ -20,8 +20,7 @@ public class Flashcard implements Serializable {
     @Column(columnDefinition="TEXT", name = "answer")
     private String answer;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flashcardreviews_id")
+    @OneToOne(mappedBy = "flashcard")
     private FlashcardReview review;
 
     @ManyToOne(fetch = FetchType.LAZY)
