@@ -26,8 +26,8 @@ public class ReviewService {
 
     public List<FlashcardInfo> getAllReviewFlashcardInfo() {
         User user = userService.getSignedOnUser();
-        Date date = new Date();
-        return reviewRepository.findAllByUserIdAndLastReviewedLessThanEqual(user.getId(), date);
+        LocalDateTime date = LocalDateTime.now();
+        return reviewRepository.findAllByUserIdAndNextReviewLessThanEqual(user.getId(), date);
     }
 
 //    TODO - Fix date conversions: Javascript sends a date in local browser time format. Next review
@@ -38,8 +38,7 @@ public class ReviewService {
         if (reviewDTO.getRemembered()) {
             currentBucket = currentBucket.next();
             Long reviewInterval = currentBucket.getInterval();
-            Date nextReview = convertToDate(LocalDateTime.from(reviewDTO.getLastReviewed().
-                    toInstant()).plusDays(reviewInterval));
+            LocalDateTime nextReview = review.getLastReviewed().plusDays(reviewInterval);
             review.setNextReview(nextReview);
             review.setTimesRemembered(review.getTimesRemembered() + 1);
         } else {

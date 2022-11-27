@@ -4,9 +4,11 @@ import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
 import com.notes.api.entities.note.Note;
+import com.notes.api.entities.review.FlashcardReview;
 import com.notes.api.mappers.NoteDTOToNoteMapper;
 import com.notes.api.repositories.FlashcardRepository;
 import com.notes.api.repositories.NoteRepository;
+import com.notes.api.repositories.Review;
 import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class NoteService {
 
     @Autowired
     FlashcardRepository flashcardRepository;
+
+    @Autowired
+    Review review;
 
     UserService userService;
 
@@ -78,6 +83,13 @@ public class NoteService {
         note.getFlashcardBlocks().forEach(fb -> {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
+                long id = f.getId();
+                if (review.findByFlashcardId(id) == null) {
+                    FlashcardReview reviewSchedule = new FlashcardReview();
+                    reviewSchedule.setUser(user);
+                    review.save(reviewSchedule);
+                    f.setReview(reviewSchedule);
+                }
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
                 f.setUser(user);
