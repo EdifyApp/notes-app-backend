@@ -5,6 +5,7 @@ import com.notes.api.entities.note.Flashcard;
 import com.notes.api.services.BucketType;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -16,18 +17,17 @@ public class FlashcardReview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="flashcard_id", referencedColumnName = "id")
-    private Flashcard flashcardId;
+    private long flashcardId;
 
     @Column(name="current_bucket")
-    private BucketType bucketType;
+    private BucketType bucketType = BucketType.One;
 
     @Column(name ="last_reviewed")
-    private Date lastReviewed;
+    private LocalDateTime lastReviewed = LocalDateTime.now();
 
     @Column(name="next_review")
-    private Date nextReview;
+    private LocalDateTime nextReview = lastReviewed.plusDays(1);
 
     @Column(name="times_reviewed")
     private long timesReviewed;
@@ -53,19 +53,19 @@ public class FlashcardReview {
         this.bucketType = bucketType;
     }
 
-    public Date getLastReviewed() {
+    public LocalDateTime getLastReviewed() {
         return lastReviewed;
     }
 
-    public void setLastReviewed(Date lastReviewed) {
+    public void setLastReviewed(LocalDateTime lastReviewed) {
         this.lastReviewed = lastReviewed;
     }
 
-    public Date getNextReview() {
+    public LocalDateTime getNextReview() {
         return nextReview;
     }
 
-    public void setNextReview(Date nextReview) {
+    public void setNextReview(LocalDateTime nextReview) {
         this.nextReview = nextReview;
     }
 
@@ -77,11 +77,11 @@ public class FlashcardReview {
         this.timesRemembered = timesRemembered;
     }
 
-    public Flashcard getFlashcardId() {
+    public long getFlashcardId() {
         return flashcardId;
     }
 
-    public void setFlashcardId(Flashcard flashcardId) {
+    public void setFlashcardId(long flashcardId) {
         this.flashcardId = flashcardId;
     }
 
