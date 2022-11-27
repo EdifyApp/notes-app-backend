@@ -27,13 +27,13 @@ public class ReviewService {
     public List<FlashcardInfo> getAllReviewFlashcardInfo() {
         User user = userService.getSignedOnUser();
         LocalDateTime date = LocalDateTime.now();
-        return reviewRepository.findAllByUserIdAndNextReviewLessThanEqual(user.getId(), date);
+        return reviewRepository.findFlashcardReview(user.getId(), date);
     }
 
 //    TODO - Fix date conversions: Javascript sends a date in local browser time format. Next review
 //    TODO - date should be calculated in local browser time format too.
     public Long saveReviewResult(FlashcardReviewDTO reviewDTO) {
-        FlashcardReview review = reviewRepository.findByFlashcardId(reviewDTO.getFlashcardId());
+        FlashcardReview review = reviewRepository.findByflashcard_id(reviewDTO.getFlashcardId());
         BucketType currentBucket = review.getBucketType();
         if (reviewDTO.getRemembered()) {
             currentBucket = currentBucket.next();

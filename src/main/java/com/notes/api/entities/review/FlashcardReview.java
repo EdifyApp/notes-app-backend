@@ -17,8 +17,9 @@ public class FlashcardReview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="flashcard_id", referencedColumnName = "id")
-    private long flashcardId;
+    private Flashcard flashcard;
 
     @Column(name="current_bucket")
     private BucketType bucketType = BucketType.One;
@@ -77,12 +78,16 @@ public class FlashcardReview {
         this.timesRemembered = timesRemembered;
     }
 
-    public long getFlashcardId() {
-        return flashcardId;
+    public Flashcard getFlashcard(){
+        return flashcard;
     }
 
-    public void setFlashcardId(long flashcardId) {
-        this.flashcardId = flashcardId;
+    public long getFlashcardId() {
+        return flashcard.getId();
+    }
+
+    public void setFlashcardId(Flashcard flashcard) {
+        this.flashcard = flashcard;
     }
 
     public long getTimesReviewed() {

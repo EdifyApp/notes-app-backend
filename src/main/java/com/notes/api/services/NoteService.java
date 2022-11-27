@@ -84,7 +84,7 @@ public class NoteService {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
                 long id = f.getId();
-                if (review.findByFlashcardId(id) == null) {
+                if (review.findByflashcard_id(id) == null) {
                     FlashcardReview reviewSchedule = new FlashcardReview();
                     reviewSchedule.setUser(user);
                     review.save(reviewSchedule);
