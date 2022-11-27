@@ -20,8 +20,9 @@ public class Flashcard implements Serializable {
     @Column(columnDefinition="TEXT", name = "answer")
     private String answer;
 
-    @OneToOne(mappedBy = "flashcard")
-    private FlashcardReview review;
+    @OneToOne(mappedBy = "flashcard", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    private FlashcardReview reviewSchedule;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "flashcardBlock_id")
@@ -84,10 +85,10 @@ public class Flashcard implements Serializable {
     }
 
     public void setReview(FlashcardReview review) {
-        this.review = review;
+        this.reviewSchedule = review;
     }
 
     public FlashcardReview getReview() {
-        return review;
+        return reviewSchedule;
     }
 }

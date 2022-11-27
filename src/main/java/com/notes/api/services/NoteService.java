@@ -11,6 +11,8 @@ import com.notes.api.repositories.NoteRepository;
 import com.notes.api.repositories.Review;
 import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,8 @@ public class NoteService {
     Review review;
 
     UserService userService;
+
+    private static final Logger logger = LoggerFactory.getLogger(NoteService.class);
 
     @Autowired
     public NoteService(NoteRepository repository, NoteDTOToNoteMapper mapper, UserService userService) {
@@ -85,10 +89,12 @@ public class NoteService {
             fb.getFlashcards().forEach(f -> {
                 long id = f.getId();
                 if (review.findByflashcard_id(id) == null) {
+                    logger.info("setting schedule");
                     FlashcardReview reviewSchedule = new FlashcardReview();
                     reviewSchedule.setUser(user);
-                    review.save(reviewSchedule);
+                    reviewSchedule.setFlashcard(f);
                     f.setReview(reviewSchedule);
+                    logger.info("flashcard schedule set");
                 }
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
