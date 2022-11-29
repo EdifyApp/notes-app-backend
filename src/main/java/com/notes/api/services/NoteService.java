@@ -8,7 +8,7 @@ import com.notes.api.entities.review.FlashcardReview;
 import com.notes.api.mappers.NoteDTOToNoteMapper;
 import com.notes.api.repositories.FlashcardRepository;
 import com.notes.api.repositories.NoteRepository;
-import com.notes.api.repositories.Review;
+import com.notes.api.repositories.ReviewRepository;
 import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class NoteService {
     FlashcardRepository flashcardRepository;
 
     @Autowired
-    Review review;
+    ReviewRepository reviewRepository;
 
     UserService userService;
 
@@ -88,7 +88,7 @@ public class NoteService {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
                 long id = f.getId();
-                if (review.findByflashcard_id(id) == null) {
+                if (reviewRepository.findByflashcard_id(id) == null) {
                     logger.info("setting schedule");
                     FlashcardReview reviewSchedule = new FlashcardReview();
                     reviewSchedule.setUser(user);

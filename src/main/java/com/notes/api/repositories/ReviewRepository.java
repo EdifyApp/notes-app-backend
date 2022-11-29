@@ -9,13 +9,14 @@ import org.springframework.stereotype.Repository;
 import com.notes.api.entities.review.FlashcardReview;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface Review extends JpaRepository<FlashcardReview, Integer> {
+public interface ReviewRepository extends JpaRepository<FlashcardReview, Integer> {
     FlashcardReview findByflashcard_id(long id);
 
-    @Query("SELECT card from Flashcard card JOIN FlashcardReview fcr WHERE fcr.user = :userId AND fcr.nextReview <= :today")
-    List<FlashcardInfo> findFlashcardReview(@Param("userId") String userId, @Param("today") LocalDateTime today);
+    @Query("SELECT fcr from FlashcardReview fcr join fcr.flashcard fc" +
+            " where fcr.user.id = :userId and fcr.nextReview <= :today")
+    List<FlashcardInfo> getAllFlashcardsByUserAndReviewDate(@Param("userId") String userId, @Param("today") LocalDateTime today);
+
 }
