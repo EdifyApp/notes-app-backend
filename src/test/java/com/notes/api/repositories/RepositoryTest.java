@@ -1,24 +1,41 @@
 package com.notes.api.repositories;
 
 import com.notes.api.TestUtils;
+import com.notes.api.dto.NoteDTO;
+import com.notes.api.entities.User;
 import com.notes.api.entities.note.*;
+import com.notes.api.entities.review.FlashcardReview;
+import com.notes.api.services.BucketType;
+import com.notes.api.services.NoteService;
+import com.notes.api.services.UserService;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
-public class NoteRepositoryTest {
+public class RepositoryTest {
 
     @Autowired
     NoteRepository noteRepository;
+
+    @Autowired
+    ReviewRepository reviewRepository;
+
+    @Autowired
+    FlashcardRepository flashcardRepository;
 
     @BeforeEach
     public void saveNote() {
@@ -33,6 +50,11 @@ public class NoteRepositoryTest {
         note.getFlashcardBlocks().forEach(fb -> {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
+                System.out.println("flashcard id is - " + f.getId());
+                FlashcardReview reviewSchedule = new FlashcardReview();
+                reviewSchedule.setFlashcard(f);
+                System.out.println("Review schedule set");
+                f.setReview(reviewSchedule);
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
             });
@@ -42,6 +64,11 @@ public class NoteRepositoryTest {
         note.getCodeBlocks().forEach( cb -> cb.setNote(note));
 
         noteRepository.save(note);
+    }
+
+    @AfterEach
+    public void CleanUp () {
+        noteRepository.deleteAll();
     }
 
     @Test
@@ -100,6 +127,24 @@ public class NoteRepositoryTest {
         Assertions.assertNotNull(noteFromDb);
         Assertions.assertEquals(2, numberOfBlocks);
         Assertions.assertEquals(0, flashcardBlocksFromDb.size());
+    }
+
+    @Test
+    public void saveNote_thenFetchUsingFlashcardIdFindsRightSchedule() {
+        Note note = noteRepository.findById(1L);
+        Assertions.assertNotNull(note);
+        List<FlashcardBlock> flashcardBlocks = note.getFlashcardBlocks();
+        flashcardBlocks.forEach(fb -> {
+            fb.getFlashcards().forEach(f -> {
+                long id = f.getId();
+                FlashcardReview reviewCard = reviewRepository.findByflashcard_id(id);
+                Assertions.assertNotNull(reviewCard);
+                Assertions.assertEquals(reviewCard.getTimesReviewed(), 0);
+                Assertions.assertEquals(reviewCard.getTimesRemembered(), 0);
+                Assertions.assertEquals(reviewCard.getNextReview(), reviewCard.getLastReviewed());
+                Assertions.assertEquals(reviewCard.getBucketType(), BucketType.One);
+            });
+        });
     }
 
 }

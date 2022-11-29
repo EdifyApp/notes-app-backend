@@ -6,6 +6,7 @@ import com.notes.api.entities.User;
 import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.*;
 import com.notes.api.repositories.NoteRepository;
+import com.notes.api.repositories.ReviewRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,9 +46,7 @@ public class NoteServiceTest {
     NoteService noteService;
 
     @BeforeEach
-    public void setUp() {
-        noteService = new NoteService(noteRepository, mapper, userService);
-    }
+    public void setUp() { noteService = new NoteService(noteRepository, mapper, userService);}
 
     @Test
     public void givenNote_whenRequested_thenNoteDTOBlocksSorted() {

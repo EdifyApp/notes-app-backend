@@ -28,7 +28,7 @@ public class FlashcardReview {
     private LocalDateTime lastReviewed = LocalDateTime.now();
 
     @Column(name="next_review")
-    private LocalDateTime nextReview = lastReviewed.plusDays(1);
+    private LocalDateTime nextReview = lastReviewed;
 
     @Column(name="times_reviewed")
     private long timesReviewed;
@@ -105,4 +105,8 @@ public class FlashcardReview {
     public void setUser(User user) {
         this.user = user;
     }
+
+    public String getAnswer() { return getFlashcard().getAnswer(); }
+
+    public String getQuestion() { return getFlashcard().getQuestion(); }
 }
