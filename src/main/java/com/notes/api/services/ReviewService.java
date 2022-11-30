@@ -8,19 +8,25 @@ import com.notes.api.repositories.ReviewRepository;
 import com.notes.api.responses.FlashcardInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class ReviewService {
+    @Autowired
     ReviewRepository reviewRepository;
 
     UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(ReviewService.class);
+    @Autowired
+    private FlashcardRepository flashcardRepository;
 
+    @Autowired
     public ReviewService(ReviewRepository repository, UserService userService) {
         this.reviewRepository = repository;
         this.userService = userService;
@@ -29,7 +35,7 @@ public class ReviewService {
     public List<FlashcardInfo> getAllReviewFlashcardInfo() {
         String userId = userService.getSignedOnUser().getId();
         LocalDateTime date = LocalDateTime.now();
-        return reviewRepository.getAllFlashcardsByUserAndReviewDate(userId, date);
+        return flashcardRepository.findAllByNoteUserIdAndReviewScheduleNextReviewLessThanEqual(userId, date);
     }
 
     public Long saveReviewResult(FlashcardReviewDTO reviewDTO) {
@@ -44,6 +50,7 @@ public class ReviewService {
             reviewCard.setTimesRemembered(reviewCard.getTimesRemembered() + 1);
         } else {
             currentBucket = currentBucket.reset();
+            reviewCard.setNextReview(reviewCompleted.plusDays(currentBucket.getInterval()));
         }
 
         reviewCard.setLastReviewed(reviewCompleted);

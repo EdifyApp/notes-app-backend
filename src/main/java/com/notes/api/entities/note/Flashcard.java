@@ -32,9 +32,9 @@ public class Flashcard implements Serializable {
     @JoinColumn(name = "note_id")
     private Note note;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     public long getId() {
         return id;
@@ -76,13 +76,13 @@ public class Flashcard implements Serializable {
         this.note = note;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public void setReview(FlashcardReview review) {
         this.reviewSchedule = review;

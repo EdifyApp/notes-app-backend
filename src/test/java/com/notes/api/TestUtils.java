@@ -1,6 +1,7 @@
 package com.notes.api;
 
 import com.notes.api.dto.*;
+import com.notes.api.entities.User;
 import com.notes.api.entities.note.*;
 
 import java.util.ArrayList;
@@ -103,5 +104,11 @@ public class TestUtils {
         }
 
         return true;
+    }
+
+    public static User getMockUser() {
+        User user = new User();
+        user.setId("firebase-id");
+        return user;
     }
 }

@@ -80,7 +80,7 @@ public class NoteService {
 
     public List<FlashcardInfo> getAllFlashcardInfo() {
         User user = userService.getSignedOnUser();
-        return flashcardRepository.findAllByUserId(user.getId());
+        return flashcardRepository.findAllByNoteUserId(user.getId());
     }
 
     private void linkBlocksToNote(Note note, User user) {
@@ -98,7 +98,6 @@ public class NoteService {
                 }
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
-                f.setUser(user);
             });
         });
 

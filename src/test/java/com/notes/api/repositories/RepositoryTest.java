@@ -5,6 +5,7 @@ import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
 import com.notes.api.entities.note.*;
 import com.notes.api.entities.review.FlashcardReview;
+import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.services.BucketType;
 import com.notes.api.services.NoteService;
 import com.notes.api.services.UserService;
@@ -24,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class RepositoryTest {
@@ -35,25 +38,33 @@ public class RepositoryTest {
     ReviewRepository reviewRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     FlashcardRepository flashcardRepository;
+
+    @Mock
+    UserService userService;
 
     @BeforeEach
     public void saveNote() {
         Note note = TestUtils.createNote(0, "test note", new Date());
+        User user = TestUtils.getMockUser();
         note.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 4));
         note.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
-
+        note.setUser(user);
         FlashcardBlock flashcardBlock = TestUtils.createFlashcardBlock(0, 3);
         flashcardBlock.getFlashcards().add(TestUtils.createFlashcard(0, "test question", "test answer"));
         note.getFlashcardBlocks().add(flashcardBlock);
 
+        userRepository.save(user);
+
         note.getFlashcardBlocks().forEach(fb -> {
             fb.setNote(note);
             fb.getFlashcards().forEach(f -> {
-                System.out.println("flashcard id is - " + f.getId());
                 FlashcardReview reviewSchedule = new FlashcardReview();
                 reviewSchedule.setFlashcard(f);
-                System.out.println("Review schedule set");
+//                f.setUser(user);
                 f.setReview(reviewSchedule);
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
@@ -64,11 +75,6 @@ public class RepositoryTest {
         note.getCodeBlocks().forEach( cb -> cb.setNote(note));
 
         noteRepository.save(note);
-    }
-
-    @AfterEach
-    public void CleanUp () {
-        noteRepository.deleteAll();
     }
 
     @Test
@@ -99,12 +105,12 @@ public class RepositoryTest {
         Assertions.assertEquals("test answer", flashcardFromDb.getAnswer());
     }
 
-    @Test
-    @Transactional
-    public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
-        noteRepository.deleteById(1);
-        Assertions.assertNull(noteRepository.findById(1));
-    }
+//    @Test
+//    @Transactional
+//    public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
+//        noteRepository.deleteById(1);
+//        Assertions.assertNull(noteRepository.findById(1));
+//    }
 
     @Test
     public void givenNoteDTO_whenNewDTOReceived_thenOldCellsDeleted() {
@@ -147,4 +153,42 @@ public class RepositoryTest {
         });
     }
 
+    @Test
+    public void givenDateGreaterThanLastReview_fetchSingleFlashcardToReview() {
+        when(userService.getSignedOnUser()).thenReturn(TestUtils.getMockUser());
+
+        Note newNote = TestUtils.createNote(2, "Flashcard test note", new Date());
+        newNote.getRichTextBlocks().add(TestUtils.createRichTextBlock("abc", 0, 0));
+        newNote.getCodeBlocks().add(TestUtils.createCodeBlock("abc", 0));
+
+        newNote.getRichTextBlocks().forEach( rtb -> rtb.setNote(newNote));
+        newNote.getCodeBlocks().forEach( cb -> cb.setNote(newNote));
+
+        FlashcardBlock flashcardBlock = TestUtils.createFlashcardBlock(0, 2);
+        flashcardBlock.getFlashcards().add(TestUtils.createFlashcard(0, "test question 2", "test answer 2"));
+
+        newNote.getFlashcardBlocks().add(flashcardBlock);
+
+        newNote.getFlashcardBlocks().forEach(fb -> {
+            fb.setNote(newNote);
+            fb.getFlashcards().forEach(f -> {
+                FlashcardReview reviewSchedule = new FlashcardReview();
+                reviewSchedule.setFlashcard(f);
+                reviewSchedule.setBucketType(BucketType.Four);
+                reviewSchedule.setNextReview(LocalDateTime.now().plusDays(5));
+//                f.setUser(userService.getSignedOnUser());
+                f.setReview(reviewSchedule);
+                f.setFlashcardBlock(fb);
+                f.setNote(newNote);
+            });
+        });
+
+        noteRepository.save(newNote);
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        List<FlashcardInfo> reviewFlashcard = flashcardRepository.findAllByNoteUserIdAndReviewScheduleNextReviewLessThanEqual(TestUtils.getMockUser().getId(),
+                localDateTime);
+        Assertions.assertEquals(reviewFlashcard.size(), 1);
+        Assertions.assertEquals(reviewFlashcard.get(0).getQuestion(), "test question");
+    }
 }
