@@ -15,8 +15,8 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<FlashcardReview, Integer> {
     FlashcardReview findByflashcard_id(long id);
 
-    @Query("SELECT fcr from FlashcardReview fcr join fcr.flashcard fc" +
-            " where fcr.user.id = :userId and fcr.nextReview <= :today")
-    List<FlashcardInfo> getAllFlashcardsByUserAndReviewDate(@Param("userId") String userId, @Param("today") LocalDateTime today);
+//    @Query("SELECT fcr from FlashcardReview fcr join fcr.flashcard fc" +
+//            " where fcr.user.id = :userId and fcr.nextReview <= :today")
+//    List<FlashcardInfo> getAllFlashcardsByUserIdAndReviewDate(@Param("userId") String userId, @Param("today") LocalDateTime today);
 
 }
