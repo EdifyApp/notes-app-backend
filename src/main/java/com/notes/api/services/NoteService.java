@@ -1,5 +1,6 @@
 package com.notes.api.services;
 
+import com.google.auto.value.AutoOneOf;
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
@@ -9,6 +10,7 @@ import com.notes.api.mappers.NoteDTOToNoteMapper;
 import com.notes.api.repositories.FlashcardRepository;
 import com.notes.api.repositories.NoteRepository;
 import com.notes.api.repositories.ReviewRepository;
+import com.notes.api.repositories.UserRepository;
 import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.responses.NoteInfo;
 import org.slf4j.Logger;
@@ -29,6 +31,9 @@ public class NoteService {
 
     @Autowired
     FlashcardRepository flashcardRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ReviewRepository reviewRepository;
@@ -89,12 +94,10 @@ public class NoteService {
             fb.getFlashcards().forEach(f -> {
                 long id = f.getId();
                 if (reviewRepository.findByflashcard_id(id) == null) {
-                    logger.info("setting schedule");
                     FlashcardReview reviewSchedule = new FlashcardReview();
                     reviewSchedule.setUser(user);
                     reviewSchedule.setFlashcard(f);
                     f.setReview(reviewSchedule);
-                    logger.info("flashcard schedule set");
                 }
                 f.setFlashcardBlock(fb);
                 f.setNote(note);

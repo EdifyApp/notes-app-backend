@@ -4,11 +4,13 @@ import com.notes.api.entities.note.Note;
 import com.notes.api.responses.NoteInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
 public interface NoteRepository extends JpaRepository<Note, Integer> {
+    @Transactional
     Integer deleteById(long id);
     Note findById(long id);
     Note findByIdAndUserId(long id, String userId);

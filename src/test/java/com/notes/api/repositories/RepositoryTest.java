@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -42,6 +44,8 @@ public class RepositoryTest {
 
     @Autowired
     FlashcardRepository flashcardRepository;
+
+    NoteService noteService;
 
     @Mock
     UserService userService;
@@ -105,12 +109,14 @@ public class RepositoryTest {
         Assertions.assertEquals("test answer", flashcardFromDb.getAnswer());
     }
 
-//    @Test
-//    @Transactional
-//    public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
-//        noteRepository.deleteById(1);
-//        Assertions.assertNull(noteRepository.findById(1));
-//    }
+    @Test
+    public void givenSavedNote_whenDeleteNoteById_thenNoteCannotBeFoundInDb() {
+        Note note = noteRepository.findAll().get(0);
+        User user = note.getUser();
+        noteRepository.deleteById(note.getId());
+        Assertions.assertNull(noteRepository.findById(note.getId()));
+        Assertions.assertNotNull(userRepository.findById(user.getId()));
+    }
 
     @Test
     public void givenNoteDTO_whenNewDTOReceived_thenOldCellsDeleted() {
