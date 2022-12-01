@@ -19,7 +19,10 @@ public class User {
     @Column(name = "email_address")
     private String emailAddress;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL,
+            mappedBy = "user",
+            fetch = FetchType.LAZY,
+    orphanRemoval = true)
     private List<Note> notes;
 
     public String getId() {
@@ -52,5 +55,9 @@ public class User {
 
     public void setNotes(List<Note> notes) {
         this.notes = notes;
+    }
+
+    public void removeNote(Note note) {
+        notes.remove(note);
     }
 }
