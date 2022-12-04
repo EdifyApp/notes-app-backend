@@ -153,7 +153,7 @@ public class RepositoryTest {
                 Assertions.assertNotNull(reviewCard);
                 Assertions.assertEquals(reviewCard.getTimesReviewed(), 0);
                 Assertions.assertEquals(reviewCard.getTimesRemembered(), 0);
-                Assertions.assertEquals(reviewCard.getNextReview(), reviewCard.getLastReviewed());
+                Assertions.assertEquals(reviewCard.getNextReview(), reviewCard.getLastReviewed().plusDays(1));
                 Assertions.assertEquals(reviewCard.getBucketType(), BucketType.One);
             });
         });
@@ -162,7 +162,7 @@ public class RepositoryTest {
     @Test
     public void fetchDistinctFetchesSuccessfully() {
         Assertions.assertEquals(1,
-                reviewRepository.findDistinctUserByNextReviewLessThanEqual(LocalDateTime.now()).size());
+                reviewRepository.findDistinctUserByNextReviewLessThanEqual(LocalDateTime.now().plusDays(1)).size());
     }
 
     @Test
@@ -197,7 +197,7 @@ public class RepositoryTest {
 
         noteRepository.save(newNote);
 
-        LocalDateTime localDateTime = LocalDateTime.now();
+        LocalDateTime localDateTime = LocalDateTime.now().plusDays(1);
         List<FlashcardInfo> reviewFlashcard = flashcardRepository.findAllByNoteUserIdAndReviewScheduleNextReviewLessThanEqual(TestUtils.getMockUser().getId(),
                 localDateTime);
         Assertions.assertEquals(reviewFlashcard.size(), 1);
