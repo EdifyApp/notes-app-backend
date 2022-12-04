@@ -1,6 +1,5 @@
 package com.notes.api.services;
 
-import com.notes.api.TestUtils;
 import com.notes.api.dto.FlashcardReviewDTO;
 import com.notes.api.entities.User;
 import com.notes.api.entities.note.FlashcardBlock;
@@ -9,8 +8,7 @@ import com.notes.api.entities.review.FlashcardReview;
 import com.notes.api.repositories.NoteRepository;
 import com.notes.api.repositories.ReviewRepository;
 import com.notes.api.repositories.UserRepository;
-import com.notes.api.responses.FlashcardInfo;
-import org.checkerframework.checker.units.qual.A;
+import com.notes.api.utils.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,11 +20,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
-
-import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)

@@ -1,12 +1,11 @@
 package com.notes.api.services;
 
-import com.notes.api.TestUtils;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
 import com.notes.api.entities.note.Note;
 import com.notes.api.mappers.*;
 import com.notes.api.repositories.NoteRepository;
-import com.notes.api.repositories.ReviewRepository;
+import com.notes.api.utils.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 

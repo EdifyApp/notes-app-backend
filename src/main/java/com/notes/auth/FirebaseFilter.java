@@ -1,4 +1,4 @@
-package com.notes;
+package com.notes.auth;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;

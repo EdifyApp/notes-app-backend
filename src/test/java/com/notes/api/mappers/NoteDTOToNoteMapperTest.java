@@ -1,8 +1,8 @@
 package com.notes.api.mappers;
 
-import com.notes.api.TestUtils;
 import com.notes.api.dto.*;
 import com.notes.api.entities.note.*;
+import com.notes.api.utils.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

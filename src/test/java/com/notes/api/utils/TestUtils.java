@@ -1,4 +1,4 @@
-package com.notes.api;
+package com.notes.api.utils;
 
 import com.notes.api.dto.*;
 import com.notes.api.entities.User;
