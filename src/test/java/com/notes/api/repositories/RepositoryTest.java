@@ -160,6 +160,12 @@ public class RepositoryTest {
     }
 
     @Test
+    public void fetchDistinctFetchesSuccessfully() {
+        Assertions.assertEquals(1,
+                reviewRepository.findDistinctUserByNextReviewLessThanEqual(LocalDateTime.now()).size());
+    }
+
+    @Test
     public void givenDateGreaterThanLastReview_fetchSingleFlashcardToReview() {
         when(userService.getSignedOnUser()).thenReturn(TestUtils.getMockUser());
 

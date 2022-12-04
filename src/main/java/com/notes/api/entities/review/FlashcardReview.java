@@ -28,7 +28,7 @@ public class FlashcardReview {
     private LocalDateTime lastReviewed = LocalDateTime.now();
 
     @Column(name="next_review")
-    private LocalDateTime nextReview = lastReviewed;
+    private LocalDateTime nextReview = lastReviewed.plusDays(BucketType.One.getInterval());
 
     @Column(name="times_reviewed")
     private long timesReviewed;

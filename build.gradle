@@ -16,7 +16,7 @@ dependencies {
 	implementation 'com.zaxxer:HikariCP:5.0.1'
 	implementation 'org.postgresql:postgresql:42.3.6'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.0'
-	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.0'
+	implementation 'com.mashape.unirest:unirest-java:1.4.9'
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.0'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'

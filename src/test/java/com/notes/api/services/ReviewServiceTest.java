@@ -39,6 +39,9 @@ public class ReviewServiceTest {
     @Mock
     UserService userService;
 
+    @Mock
+    MailService mailService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -49,7 +52,7 @@ public class ReviewServiceTest {
 
     @BeforeEach
     public void setup() {
-        reviewService = new ReviewService(reviewRepository, userService);
+        reviewService = new ReviewService(reviewRepository, userService, mailService);
 
         Note note = TestUtils.createNote(1, "test note", new Date());
         User user = TestUtils.getMockUser();
