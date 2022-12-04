@@ -1,4 +1,4 @@
-package com.notes;
+package com.notes.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,32 +1,24 @@
 package com.notes.api.repositories;
 
-import com.notes.api.TestUtils;
-import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
 import com.notes.api.entities.note.*;
 import com.notes.api.entities.review.FlashcardReview;
 import com.notes.api.responses.FlashcardInfo;
 import com.notes.api.services.BucketType;
-import com.notes.api.services.NoteService;
 import com.notes.api.services.UserService;
-import org.junit.jupiter.api.AfterEach;
+import com.notes.api.utils.TestUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -44,8 +36,6 @@ public class RepositoryTest {
 
     @Autowired
     FlashcardRepository flashcardRepository;
-
-    NoteService noteService;
 
     @Mock
     UserService userService;
@@ -146,17 +136,15 @@ public class RepositoryTest {
         Note note = noteRepository.findById(1L);
         Assertions.assertNotNull(note);
         List<FlashcardBlock> flashcardBlocks = note.getFlashcardBlocks();
-        flashcardBlocks.forEach(fb -> {
-            fb.getFlashcards().forEach(f -> {
-                long id = f.getId();
-                FlashcardReview reviewCard = reviewRepository.findByflashcard_id(id);
-                Assertions.assertNotNull(reviewCard);
-                Assertions.assertEquals(reviewCard.getTimesReviewed(), 0);
-                Assertions.assertEquals(reviewCard.getTimesRemembered(), 0);
-                Assertions.assertEquals(reviewCard.getNextReview(), reviewCard.getLastReviewed().plusDays(1));
-                Assertions.assertEquals(reviewCard.getBucketType(), BucketType.One);
-            });
-        });
+        flashcardBlocks.forEach(fb -> fb.getFlashcards().forEach(f -> {
+            long id = f.getId();
+            FlashcardReview reviewCard = reviewRepository.findByflashcard_id(id);
+            Assertions.assertNotNull(reviewCard);
+            Assertions.assertEquals(reviewCard.getTimesReviewed(), 0);
+            Assertions.assertEquals(reviewCard.getTimesRemembered(), 0);
+            Assertions.assertEquals(reviewCard.getNextReview(), reviewCard.getLastReviewed().plusDays(1));
+            Assertions.assertEquals(reviewCard.getBucketType(), BucketType.One);
+        }));
     }
 
     @Test
