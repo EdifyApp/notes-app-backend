@@ -68,7 +68,7 @@ public class ReviewService {
         return reviewCard.getId();
     }
 
-    @Scheduled(cron = "0 19 * * *")
+    @Scheduled(cron = "0 0 19 * * ?")
     @Transactional(readOnly = true)
     public void sendEmail(){
         List<FlashcardReview> reviews = reviewRepository.findDistinctUserByNextReviewLessThanEqual(LocalDateTime.now());
