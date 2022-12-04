@@ -109,6 +109,7 @@ public class TestUtils {
     public static User getMockUser() {
         User user = new User();
         user.setId("firebase-id");
+        user.setEmailAddress("testemail@testdomain.com");
         return user;
     }
 }
