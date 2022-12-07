@@ -28,21 +28,21 @@ dependencies {
 	implementation 'com.heroku:web-app-runner:9.0.69.0'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
+	providedCompile("com.heroku:webapp-runner*") {
+		exclude module: "tomcat-embed-core"
+		exclude module: "tomcat-embed-websocket"
+		exclude module: "tomcat-embed-jasper"
+		exclude module: "tomcat-jasper"
+		exclude module: "tomcat-jasper-el"
+		exclude module: "redisson-tomcat-9"
+	}
+
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.7.0'
 
 	testImplementation 'com.h2database:h2:2.1.214'
 	testImplementation 'org.mockito:mockito-core:4.6.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.0'
 
-}
-
-providedCompile("com.heroku:webapp-runner*") {
-	exclude module: "tomcat-embed-core"
-	exclude module: "tomcat-embed-websocket"
-	exclude module: "tomcat-embed-jasper"
-	exclude module: "tomcat-jasper"
-	exclude module: "tomcat-jasper-el"
-	exclude module: "redisson-tomcat-9"
 }
 
 task stage() {
