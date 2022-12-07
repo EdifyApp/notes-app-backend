@@ -1,1 +1,1 @@
-worker: java $JAVA_OPTS -Dserver.port=$PORT -jar build/server/webapp-runner-*.jar build/libs/*.war
+web: java $JAVA_OPTS -jar build/server/webapp-runner-*.jar build/libs/*.war --port $PORT
