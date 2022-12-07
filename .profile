@@ -1,0 +1,1 @@
+echo ${GOOGLE_CREDENTIALS} > ./firebase-auth-credentials.json

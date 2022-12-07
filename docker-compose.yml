@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   db:
-    image: postgres:13-alpine
+    image: postgres
     restart: always
     container_name: db
     environment:
@@ -11,16 +11,19 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - ./db:/var/lib/postgresql/data
-      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - volpostgres:/var/lib/postgresql/data
   app:
     build:
       context: .
+    image: eruditioapps.azurecr.io/app
     container_name: app
     ports:
-      - 8080:8080
+      - '80:80'
     depends_on:
       - "db"
 volumes:
-  db:
-    driver: local
+  volpostgres:
+    driver: azure_file
+    driver_opts:
+     share_name: app-db-volume
+     storage_account_name: eruditioappdb
