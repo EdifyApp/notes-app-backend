@@ -28,7 +28,7 @@ dependencies {
 	implementation 'com.github.jsimone:webapp-runner:9.0.27.1'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.7.0'
+//	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat:2.7.0'
 
 	providedCompile("com.github.jsimone:webapp-runner:9.0.27.1") {
 		exclude module: "tomcat-embed-core"
