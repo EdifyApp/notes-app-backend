@@ -26,12 +26,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security:2.7.0'
 	implementation 'org.thymeleaf:thymeleaf-spring6:3.1.0.RELEASE'
 	implementation ('com.github.jsimone:webapp-runner:9.0.27.1') {
-		exclude module: "tomcat-embed-core"
-		exclude module: "tomcat-embed-websocket"
+//		exclude module: "tomcat-embed-core"
+//		exclude module: "tomcat-embed-websocket"
 		exclude module: "tomcat-embed-jasper"
 		exclude module: "tomcat-jasper"
 		exclude module: "tomcat-jasper-el"
-		exclude module: "redisson-tomcat-9"
+//		exclude module: "redisson-tomcat-9"
 	}
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
