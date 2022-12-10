@@ -11,7 +11,6 @@ FROM tomcat:9.0
 # ENV GOOGLE_APPLICATION_CREDENTIALS=/data/firebase-auth-credentials.json
 
 WORKDIR /usr/local/tomcat/webapps/
-ENV SPRING_PROFILES_ACTIVE=prod
 COPY --from=gradle app/build/libs/notes-api.war /usr/local/tomcat/webapps
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
