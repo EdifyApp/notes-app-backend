@@ -58,7 +58,7 @@ public class RepositoryTest {
             fb.getFlashcards().forEach(f -> {
                 FlashcardReview reviewSchedule = new FlashcardReview();
                 reviewSchedule.setFlashcard(f);
-//                f.setUser(user);
+                f.setUser(user);
                 f.setReview(reviewSchedule);
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
@@ -176,7 +176,7 @@ public class RepositoryTest {
                 reviewSchedule.setFlashcard(f);
                 reviewSchedule.setBucketType(BucketType.Four);
                 reviewSchedule.setNextReview(LocalDateTime.now().plusDays(5));
-//                f.setUser(userService.getSignedOnUser());
+                f.setUser(userService.getSignedOnUser());
                 f.setReview(reviewSchedule);
                 f.setFlashcardBlock(fb);
                 f.setNote(newNote);

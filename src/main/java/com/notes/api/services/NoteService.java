@@ -1,6 +1,5 @@
 package com.notes.api.services;
 
-import com.google.auto.value.AutoOneOf;
 import com.notes.api.dto.BlockDTO;
 import com.notes.api.dto.NoteDTO;
 import com.notes.api.entities.User;
@@ -101,6 +100,7 @@ public class NoteService {
                 }
                 f.setFlashcardBlock(fb);
                 f.setNote(note);
+                f.setUser(user);
             });
         });
 
