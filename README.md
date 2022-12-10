@@ -10,4 +10,10 @@
 1. SSH into the database docker container
 2. Run the command ```psql -d notes -U notesuser```
 
+### How to push a new image to Azure Container Registry
+1. Run ```az acr login --name eruditioapps``` to login
+2. Then run ```docker build . -t eruditioapps.azurecr.io/notes-app-backend:latest``` to build an image
+3. Run ```docker push eruditioapps.azurecr.io/notes-app-backend:latest``` to publish the image to Azure Container Registry
+
+A webhook has been set up to restart the app service when there is a new image
 
