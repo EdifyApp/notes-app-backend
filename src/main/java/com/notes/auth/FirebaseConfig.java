@@ -3,18 +3,14 @@ package com.notes.auth;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 
 @Configuration
-@EnableConfigurationProperties
-@ConfigurationProperties(prefix="firebase")
-@ConditionalOnProperty(value="env", havingValue="dev")
+@Profile("!test")
 public class FirebaseConfig {
 
     @PostConstruct
