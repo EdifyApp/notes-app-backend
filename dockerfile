@@ -7,8 +7,8 @@ COPY build.gradle ./
 RUN gradle bootWar
 
 FROM tomcat:9.0
-COPY firebase-auth-credentials.json /data/
-ENV GOOGLE_APPLICATION_CREDENTIALS=/data/firebase-auth-credentials.json
+# COPY firebase-auth-credentials.json /data/
+# ENV GOOGLE_APPLICATION_CREDENTIALS=/data/firebase-auth-credentials.json
 
 WORKDIR /usr/local/tomcat/webapps/
 ENV SPRING_PROFILES_ACTIVE=prod
